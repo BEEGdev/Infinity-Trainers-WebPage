@@ -1,16 +1,21 @@
 <script setup>
+import { ref } from 'vue';
 
+ref
+const isMenuVisible = ref(false);
+    function showMobileMenu() {
+    isMenuVisible.value = !isMenuVisible.value;
+    } 
 </script>
 
 <template>
-    <header class="flex w-screen  bg-[#016646] sm:justify-between sm:p-0 text-white">
+    <header class="flex w-full  bg-[#016646] sm:justify-between sm:p-0 text-white">
         <nav>
             <span class=""><img src="../assets/logo.jpg" alt="Infinity Trainers Logo" class=" h-20 p-0"></span>
         </nav>
         <div class="sm:hidden m-auto sm:m-0 text-2xl">Infinity Trainers</div>
-        <nav class="sm:justify-center md:justify-end sm:align-middle md:align-right">
-            <ul
-                class="hidden sm:flex sm:text-lg md:text-lg lg:text-2xl sm:gap-5 md:gap-10 lg:gap-10 xl:gap-24 sm:justify-center sm:pr-3 md:pr-14 lg:pr-32 xl:pr-48">
+        <nav class="sm:justify-right">
+            <ul class="hidden sm:flex sm:text-lg md:text-lg lg:text-2xl sm:gap-5 md:gap-10 lg:gap-10 xl:gap-24 sm:justify-center">
                 <li class="p-6 sm:px-1">Inicio</li>
                 <li class="p-6 sm:px-1">Nuestros entrenamientos</li>
                 <li class="p-6 sm:px-1">A domicilio</li>
@@ -18,7 +23,7 @@
             </ul>
         </nav>
         <div>
-            <button class="relative group sm:hidden p-3">
+            <button class="relative group sm:hidden p-3" @click="showMobileMenu" v-on:focusout="showMobileMenu">
                 <div
                     class="relative flex items-center justify-center rounded-full w-[50px] h-[50px] transform transition-all bg-[#FAF3E0] ring-0 ring-gray-300 hover:ring-8 group-focus:ring-4 ring-opacity-30 duration-200 shadow-md">
                     <div
@@ -35,4 +40,14 @@
             </button>
         </div>
     </header>
+    <div class="">
+        <nav class="fixed sm:hidden justify-end flex w-full" v-if="isMenuVisible" >
+            <ul class="text-right text-white text-2xl ">
+                <li class="p-6 sm:px-1 bg-[#016646]">Inicio</li>
+                <li class="p-6 sm:px-1 bg-[#016646]">Nuestros entrenamientos</li>
+                <li class="p-6 sm:px-1 bg-[#016646]">A domicilio</li>
+                <li class="p-6 sm:px-1 bg-[#016646]">Sobre nosotros</li>
+            </ul>
+        </nav>
+    </div>
 </template>
