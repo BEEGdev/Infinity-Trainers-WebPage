@@ -16,10 +16,10 @@ const isMenuVisible = ref(false);
         <div class="sm:hidden m-auto sm:m-0 text-2xl">Infinity Trainers</div>
         <nav class="sm:justify-right">
             <ul class="hidden sm:flex sm:text-lg md:text-lg lg:text-2xl sm:gap-5 md:gap-10 lg:gap-10 xl:gap-24 sm:justify-center">
-                <li class="p-6 sm:px-1">Inicio</li>
-                <li class="p-6 sm:px-1">Nuestros entrenamientos</li>
-                <li class="p-6 sm:px-1">A domicilio</li>
-                <li class="p-6 sm:px-1">Sobre nosotros</li>
+                <li class="p-6 sm:px-1 align-middle">Inicio</li>
+                <li class="p-6 sm:px-1 align-middle">Nuestros entrenamientos</li>
+                <li class="p-6 sm:px-1 align-middle">A domicilio</li>
+                <li class="p-6 sm:px-1 align-middle">Sobre nosotros</li>
             </ul>
         </nav>
         <div>
