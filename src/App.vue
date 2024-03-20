@@ -2,6 +2,8 @@
 import Programs from './views/Programs.vue';
 </script>
 
-<template>  
+<template>
+<div class="bg-[#FAF3E0]"> 
         <Programs/>
+</div> 
 </template>

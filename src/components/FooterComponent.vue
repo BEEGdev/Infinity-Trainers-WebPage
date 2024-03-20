@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <footer class="w-screen fixed grid xl:grid-cols-3 bottom-0 bg-[#016646]  text-white ">
+    <footer class="w-100 grid xl:grid-cols-3 bottom-0 bg-[#016646]  text-white">
 
         <nav class="p-10 xl:p-0">
             <span class=""><img src="../assets/logo.jpg" alt="Infinity Trainers Logo" class="h-28 m-auto xl:m-0 xl:h-40"></span>

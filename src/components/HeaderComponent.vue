@@ -2,14 +2,26 @@
 import { ref } from 'vue';
 
 ref
+
 const isMenuVisible = ref(false);
     function showMobileMenu() {
+    
     isMenuVisible.value = !isMenuVisible.value;
     } 
+
+const handleScroll= (e) => {
+    
+    if (isMenuVisible.value == true){
+        isMenuVisible.value = false;
+    }
+}
+
+window.addEventListener('scroll', handleScroll);
+
 </script>
 
 <template>
-    <header class="flex w-full  bg-[#016646] sm:justify-between sm:p-0 text-white">
+    <header class="flex w-100 bg-[#016646] sm:justify-between sm:p-0 text-white sm:bg-yellow-600 md:bg-orange-600 lg:bg-blue-600 xl:bg-gray-600">
         <nav>
             <span class=""><img src="../assets/logo.jpg" alt="Infinity Trainers Logo" class=" h-20 p-0"></span>
         </nav>
@@ -23,7 +35,7 @@ const isMenuVisible = ref(false);
             </ul>
         </nav>
         <div>
-            <button class="relative group sm:hidden p-3" @click="showMobileMenu" v-on:focusout="showMobileMenu">
+            <button class="relative group sm:hidden p-3" @click="showMobileMenu" v-on:focusout="showMobileMenu" >
                 <div
                     class="relative flex items-center justify-center rounded-full w-[50px] h-[50px] transform transition-all bg-[#FAF3E0] ring-0 ring-gray-300 hover:ring-8 group-focus:ring-4 ring-opacity-30 duration-200 shadow-md">
                     <div
@@ -41,7 +53,7 @@ const isMenuVisible = ref(false);
         </div>
     </header>
     <div class="">
-        <nav class="fixed sm:hidden justify-end flex w-full" v-if="isMenuVisible" >
+        <nav class="relative sm:hidden justify-end w-full z-50" v-if="isMenuVisible">
             <ul class="text-right text-white text-2xl ">
                 <li class="p-6 sm:px-1 bg-[#016646]">Inicio</li>
                 <li class="p-6 sm:px-1 bg-[#016646]">Nuestros entrenamientos</li>
