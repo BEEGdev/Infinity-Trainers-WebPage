@@ -16,7 +16,6 @@
                 <ul class="text-center xl:text-right flex-col text-2xl"> 
                     <li class="pb-6">Inicio</li>
                     <li class="pb-6">Nuestros entrenamientos</li>
-                    <li class="pb-6">A domicilio</li>
                     <li class="pb-6">Sobre nosotros</li>
                 </ul>
             </nav>

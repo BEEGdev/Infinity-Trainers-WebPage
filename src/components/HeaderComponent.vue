@@ -5,7 +5,6 @@ ref
 
 const isMenuVisible = ref(false);
     function showMobileMenu() {
-    
     isMenuVisible.value = !isMenuVisible.value;
     } 
 
@@ -21,16 +20,15 @@ window.addEventListener('scroll', handleScroll);
 </script>
 
 <template>
-    <header class="flex w-100 bg-[#016646] sm:justify-between sm:p-0 text-white sm:bg-yellow-600 md:bg-orange-600 lg:bg-blue-600 xl:bg-gray-600">
+    <header class="flex w-100 bg-[#016646] sm:justify-between sm:p-0 text-white sm:bg-yellow-600 md:bg-orange-600 lg:bg-blue-600 xl:bg-gray-600 2xl:bg-red-700">
         <nav>
             <span class=""><img src="../assets/logo.jpg" alt="Infinity Trainers Logo" class=" h-20 p-0"></span>
         </nav>
-        <div class="sm:hidden m-auto sm:m-0 text-2xl">Infinity Trainers</div>
+        <div class="sm:hidden m-auto sm:m-0 text-2xl text-center">Infinity Trainers</div>
         <nav class="sm:justify-right">
             <ul class="hidden sm:flex sm:text-lg md:text-lg lg:text-2xl sm:gap-5 md:gap-10 lg:gap-10 xl:gap-24 sm:justify-center">
                 <li class="p-6 sm:px-1 align-middle">Inicio</li>
                 <li class="p-6 sm:px-1 align-middle">Nuestros entrenamientos</li>
-                <li class="p-6 sm:px-1 align-middle">A domicilio</li>
                 <li class="p-6 sm:px-1 align-middle">Sobre nosotros</li>
             </ul>
         </nav>
