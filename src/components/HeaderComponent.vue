@@ -20,18 +20,18 @@ window.addEventListener('scroll', handleScroll);
 </script>
 
 <template>
-    <header class="flex w-100 bg-[#016646] sm:justify-between sm:p-0 text-white sm:bg-yellow-600 md:bg-orange-600 lg:bg-blue-600 xl:bg-gray-600 2xl:bg-red-700">
+    <header class="flex w-100 bg-[#016646] sm:justify-between sm:p-0 text-white sm:bg-yellow-600 md:bg-orange-600 lg:bg-blue-600 xl:bg-gray-600 2xl:bg-[#016646]">
         <nav>
             <span class=""><img src="../assets/logo.jpg" alt="Infinity Trainers Logo" class=" h-20 p-0"></span>
         </nav>
         <div class="sm:hidden m-auto sm:m-0 text-2xl text-center">Infinity Trainers</div>
         <nav class="sm:justify-right">
-            <ul class="hidden sm:flex sm:text-lg md:text-lg lg:text-2xl sm:gap-5 md:gap-10 lg:gap-10 xl:gap-24 sm:justify-center">
-                <li class="p-6 sm:px-1 align-middle">Inicio</li>
-                <li class="p-6 sm:px-1 align-middle">Nuestros entrenamientos</li>
-                <li class="p-6 sm:px-1 align-middle">Sobre nosotros</li>
+            <ul class="p-5 hidden sm:flex sm:text-lg md:text-lg lg:text-2xl sm:gap-5 md:gap-10 lg:gap-10 xl:gap-24 sm:justify-center">
+                <li class="p-1 rounded-md sm:px-1 align-middle hover:text-[#016646] hover:bg-white">Inicio</li>
+                <li class="p-1 rounded-md sm:px-1 align-middle hover:text-[#016646] hover:bg-white">Nuestros entrenamientos</li>
+                <li class="p-1 rounded-md sm:px-1 align-middle hover:text-[#016646] hover:bg-white">Sobre nosotros</li>
             </ul>
-        </nav>
+        </nav>  
         <div>
             <button class="relative group sm:hidden p-3" @click="showMobileMenu" v-on:focusout="showMobileMenu" >
                 <div
@@ -53,11 +53,12 @@ window.addEventListener('scroll', handleScroll);
     <div class="">
         <nav class="relative sm:hidden justify-end w-full z-50" v-if="isMenuVisible">
             <ul class="text-right text-white text-2xl ">
-                <li class="p-6 sm:px-1 bg-[#016646]">Inicio</li>
-                <li class="p-6 sm:px-1 bg-[#016646]">Nuestros entrenamientos</li>
-                <li class="p-6 sm:px-1 bg-[#016646]">A domicilio</li>
-                <li class="p-6 sm:px-1 bg-[#016646]">Sobre nosotros</li>
+                <li class="p-6 sm:px-2 bg-[#016646]">Inicio</li>
+                <li class="p-6 sm:px-2 bg-[#016646]">Nuestros entrenamientos</li>
+                <li class="p-6 sm:px-2 bg-[#016646]">A domicilio</li>
+                <li class="p-6 sm:px-2 bg-[#016646]">Sobre nosotros</li>
             </ul>
         </nav>
     </div>
 </template>
+    
