@@ -2,7 +2,7 @@
 import HeaderComponent from '../components/HeaderComponent.vue';
 import FooterComponent from '../components/FooterComponent.vue';
 import Card from '../components/Card.vue';
-import bonds from '../bonds.json';
+import webTexts from '../webTexts.json';
 </script>
 
 <template class="">
@@ -16,7 +16,7 @@ import bonds from '../bonds.json';
     </div>
         <div class="grid place-items-center my-10 w-full gap-20 drop-shadow-md md:my-24 lg:grid-flow-col lg:grid-cols-3 lg:gap-1 xl:gap-10 xl:w-10/12 xl:mx-auto" > <!--Tarjetas de bono-->
 
-        <Card v-for="bond in bonds" 
+        <Card v-for="bond in webTexts.bonds" 
         :title = "bond.title"
         :subtitle = "bond.subtitle"
         :description="bond.description"
@@ -27,47 +27,5 @@ import bonds from '../bonds.json';
         </div>
 
     <FooterComponent/>
-<!-- 
-    <div class="w-10/12 bg-[#016646] text-center rounded-xl text-white sm:w-8/12 md:w-6/12 lg:w-10/12 xl:w-10/12 2xl:w-9/12"> 
-                
-                <h2 class="p-8 font-bold text-2xl lg:text-xl lg:p-7 ">ESSENCE:<br>BONO 5 SESIONES</h2>
-                <div class=" w-full bg-[url('https://cloud1.email2go.io/7efeb6400e09756814e99049835fa47b/7c503a1b396b218d34b7f9953720f5a3d4befe13bacc523af79cdbaa209fe98a.jpg')] h-36 bg-cover bg-center md:h-40"></div>
-                <div class="p-7 bg-[#E4DBC0] grid sm:grid-cols-1 gap-5 text-[#372100] lg:p-3">
-                    <p class="bg-[#E4DBC0] font-semibold text-lg lg:text-sm">
-                    Comienza en el entrenamiento personal por la puerta grande. 
-                    En este paquete comenzarás un cambio que te guiará a conseguir los objetivos que te propongas
-                    </p>
-                    <span class="font-extrabold text-lg lg:text-base">Desde 195 €</span>
-                </div>
-            <button class="p-6 text-2xl font-semibold bg-[#A88A5E] w-full rounded-b-xl lg:text-base lg:p-4">Quiero verlo</button>
-        </div>
-
-        <div class="w-10/12 bg-[#016646] text-center rounded-xl text-white sm:w-8/12 md:w-6/12 lg:w-10/12 xl:w-10/12 2xl:w-9/12"> 
-            
-            <h2 class="p-8 font-bold text-2xl lg:text-xl lg:p-7">ESSENCE:<br>BONO 5 SESIONES</h2>
-            <div class=" w-full bg-[url('https://cloud1.email2go.io/7efeb6400e09756814e99049835fa47b/1abe314cd802166ac89fae60aa9413c7ba4ed5afc48c7b89c278481fcff7b539.jpg')] h-36 bg-cover bg-center"></div>
-            <div class="p-7 bg-[#E4DBC0] grid sm:grid-cols-1 gap-5 text-[#372100] lg:p-3">
-                <p class="bg-[#E4DBC0] font-semibold text-lg lg:text-sm">
-                Comienza en el entrenamiento personal por la puerta grande. 
-                En este paquete comenzarás un cambio que te guiará a conseguir los objetivos que te propongas
-                </p>
-                <span class="font-extrabold text-lg lg:text-base">Desde 195 €</span>
-            </div>
-        <button class="p-6 text-2xl font-semibold bg-[#A88A5E] w-full rounded-b-xl lg:text-base lg:p-4">Quiero verlo</button>
-        </div>
-
-        <div class="w-10/12 bg-[#016646] text-center rounded-xl text-white sm:w-8/12 md:w-6/12 lg:w-10/12 xl:w-10/12 2xl:w-9/12"> 
-            
-            <h2 class="p-8 font-bold text-2xl lg:text-xl lg:p-7">ESSENCE:<br>BONO 5 SESIONES</h2>
-            <div class=" w-full bg-[url('https://cloud1.email2go.io/7efeb6400e09756814e99049835fa47b/657187fb37458f2f3021ee3e4293a22b3852e6d08f026d5a33430b1b3806e9eb.jpg')] h-36 bg-cover bg-center"></div>
-            <div class="p-7 bg-[#E4DBC0] grid sm:grid-cols-1 gap-5 text-[#372100] lg:p-3">
-                <p class="bg-[#E4DBC0] font-semibold text-lg lg:text-sm">
-                Comienza en el entrenamiento personal por la puerta grande. 
-                En este paquete comenzarás un cambio que te guiará a conseguir los objetivos que te propongas
-                </p>
-                <span class="font-extrabold text-lg lg:text-base">Desde 195 €</span>
-            </div>
-        <button class="p-6 text-2xl font-semibold bg-[#A88A5E] w-full rounded-b-xl lg:text-base lg:p-4">Quiero verlo</button>
-        </div> -->
 </template>
 

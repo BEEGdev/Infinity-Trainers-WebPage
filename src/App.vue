@@ -6,6 +6,6 @@ import AboutUs from './views/AboutUs.vue';
 
 <template>
 <div class="bg-[#FAF3E0]"> 
-        <Programs/>
+        <AboutUs/>
 </div> 
 </template>

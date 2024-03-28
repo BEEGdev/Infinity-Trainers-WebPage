@@ -1,0 +1,49 @@
+{ 
+    "bonds":{
+        "bond_0" : { 
+            "title" : "ESSENCE", 
+            "subtitle" : "BONO 5 SESIONES", 
+            "description" : "Comienza en el entrenamiento personal por la puerta grande.En este paquete comenzarás un cambio que te guiará a conseguir los objetivos que te propongas", 
+            "price" : "195",
+            "image" : "https://cloud1.email2go.io/7efeb6400e09756814e99049835fa47b/7c503a1b396b218d34b7f9953720f5a3d4befe13bacc523af79cdbaa209fe98a.jpg" 
+        },
+        "bond_1" : { 
+            "title" : "LIMITLESS", 
+            "subtitle" : "BONO 10 SESIONES", 
+            "description" : "Diseñado para aquellos que buscan un gran cambio, un entrenamiento que te cambiará físicamente a pasos agigantados.", 
+            "price" : "210",
+            "image" : "https://cloud1.email2go.io/7efeb6400e09756814e99049835fa47b/1abe314cd802166ac89fae60aa9413c7ba4ed5afc48c7b89c278481fcff7b539.jpg')] h-36 bg-cover bg-center" 
+        },
+        "bond_2" : { 
+            "title" : "INFINITY ELITE", 
+            "subtitle" : "EXPERIENCE", 
+            "description" : "Nuestro paquete premium. Con todo un equipo de profesionales de la actividad física, nutricionistas y fisioterapeutas se coordinan para ofrecerte la transformación más increíble que hay en el sector.", 
+            "price" : "800",
+            "image" : "https://cloud1.email2go.io/7efeb6400e09756814e99049835fa47b/657187fb37458f2f3021ee3e4293a22b3852e6d08f026d5a33430b1b3806e9eb.jpg"
+        }
+    },
+    "aboutUs":{
+        "aboutUs_0":{
+            "title":"Zonas en las que trabajamos",
+            "text": "Nuestro enfoque no se limita una zona en concreto: Ofrecemos cobertura en cualquier muncipio de las siguientes zonas de Madrid",
+            "list":[
+                "Madrid norte","Madrid capital","Sur y este de Madrid"
+            ]
+        },
+        "aboutUs_1":{
+            "title":"Nuestro equipo",
+            "text": "En Infinity Trainers, valoramos profundamente la importancia de la formación profesional en el ámbito del entrenamiento personal. Es por eso que nos enorgullece contar con un equipo exclusivamente conformado por entrenadores licenciados universitarios, cuya diversidad de titulaciones complementa y actualiza continuamente sus conocimientos. Para nosotros, el entrenamiento personal no es solo un servicio, sino una experiencia única que debe ser ejecutada con la máxima calidad y precisión. Nos comprometemos a brindar a nuestros clientes un servicio personalizado y seguro, garantizando resultados óptimos y duraderos. Confía en la calidad y la experiencia de Infinity Trainers para cuidar de tu salud y ayudarte a alcanzar tus objetivos fitness de manera eficaz.",
+            "list":[]
+        },
+        "aboutUs_2":{
+            "title":"Todo tipo de entrenamientos",
+            "text": "En Infinity Trainers nos adaptamos a cualquier tipo de perfil, empleando los conocimientos sobre salud y deporte más avanzados creamos un plan personalizado para adaptarnos al 100% a tus necesidades. Por lo general los entrenamientos más recurrentes son:",
+            "list":["Fuerza","Pérdida de peso","Aumento de masa muscular", "Entrenamiento al aire libre", "Entrenamiento para la tercera edad"]
+        },
+        "aboutUs_3":{
+            "title":"Nuestra motivación",
+            "text": "La motivación detrás de nuestra decisión de ofrecer entrenamiento a domicilio en Madrid se basa en nuestro firme compromiso de proporcionar un servicio excepcional que se adapte a las necesidades y preferencias de nuestros clientes. Reconocemos que la comodidad y la accesibilidad son aspectos clave para muchos individuos que desean embarcarse en un viaje hacia una vida más saludable y activa. Al llevar nuestros servicios directamente a los hogares de nuestros clientes, eliminamos barreras como el tiempo y la distancia, brindando una solución conveniente y personalizada para aquellos que desean priorizar su bienestar sin comprometer su estilo de vida. Esta iniciativa refleja nuestra dedicación continua a la excelencia en el servicio y nuestra determinación de hacer que el entrenamiento personal sea accesible para todos en Madrid.",
+            "list":[]
+        }
+    }
+}
