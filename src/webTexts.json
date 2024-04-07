@@ -5,26 +5,29 @@
             "subtitle" : "BONO 5 SESIONES", 
             "description" : "Comienza en el entrenamiento personal por la puerta grande.En este paquete comenzarás un cambio que te guiará a conseguir los objetivos que te propongas", 
             "price" : "195",
-            "image" : "https://cloud1.email2go.io/7efeb6400e09756814e99049835fa47b/7c503a1b396b218d34b7f9953720f5a3d4befe13bacc523af79cdbaa209fe98a.jpg" 
+            "isRecommended":false,
+            "image" : "https://d2hbcuqreawz28.cloudfront.net/card1.webp" 
         },
         "bond_1" : { 
             "title" : "LIMITLESS", 
             "subtitle" : "BONO 10 SESIONES", 
             "description" : "Diseñado para aquellos que buscan un gran cambio, un entrenamiento que te cambiará físicamente a pasos agigantados.", 
             "price" : "210",
-            "image" : "https://cloud1.email2go.io/7efeb6400e09756814e99049835fa47b/1abe314cd802166ac89fae60aa9413c7ba4ed5afc48c7b89c278481fcff7b539.jpg')] h-36 bg-cover bg-center" 
+            "isRecommended":true,
+            "image" : "https://d2hbcuqreawz28.cloudfront.net/card2.webp" 
         },
         "bond_2" : { 
             "title" : "INFINITY ELITE", 
             "subtitle" : "EXPERIENCE", 
             "description" : "Nuestro paquete premium. Con todo un equipo de profesionales de la actividad física, nutricionistas y fisioterapeutas se coordinan para ofrecerte la transformación más increíble que hay en el sector.", 
             "price" : "800",
-            "image" : "https://cloud1.email2go.io/7efeb6400e09756814e99049835fa47b/657187fb37458f2f3021ee3e4293a22b3852e6d08f026d5a33430b1b3806e9eb.jpg"
+            "isRecommended":false,
+            "image" : "https://d2hbcuqreawz28.cloudfront.net/card3.webp"
         }
     },
     "aboutUs":{
         "aboutUs_0":{
-            "title":"Zonas en las que trabajamos",
+            "title":"Zonas en las que trabajamos", 
             "text": "Nuestro enfoque no se limita una zona en concreto: Ofrecemos cobertura en cualquier muncipio de las siguientes zonas de Madrid",
             "list":[
                 "Madrid norte","Madrid capital","Sur y este de Madrid"

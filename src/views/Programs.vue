@@ -1,13 +1,11 @@
 <script setup>
-import HeaderComponent from '../components/HeaderComponent.vue';
-import FooterComponent from '../components/FooterComponent.vue';
 import Card from '../components/Card.vue';
 import webTexts from '../webTexts.json';
+import ContactInfo from '../components/ContactInfo.vue';
 </script>
 
-<template class="">
-    <HeaderComponent/>
-    <div class="w-full h-64 bg-cover bg-center bg-[url('https://cloud1.email2go.io/7efeb6400e09756814e99049835fa47b/6e815769a32d64e399e8e6df1121d4346d258a72edd67b9af4f637ef99f51071.jpg')]"> </div>
+<template class=""><div>
+    <div class="w-full h-64 bg-cover bg-center bg-[url('https://d2hbcuqreawz28.cloudfront.net/programs-header.webp')]"> </div>
     <div class="bg-[#016646] text-white p-8 text-center">
         <p class="p-1 font-extrabold text-2xl text-center">¿Estás dispuesto a apostar por ti?</p>
         <p class="p-7">
@@ -21,11 +19,14 @@ import webTexts from '../webTexts.json';
         :subtitle = "bond.subtitle"
         :description="bond.description"
         :price="bond.price"
+        :is-recommended="bond.isRecommended"
         :image="bond.image"
-        />
-            
-        </div>
+        /> 
+    </div>
 
-    <FooterComponent/>
+    <div class="grid grid-cols-1 place-items-center my-10">
+        <ContactInfo/>
+    </div>
+</div>
 </template>
 
