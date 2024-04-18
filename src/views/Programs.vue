@@ -21,6 +21,7 @@ import ContactInfo from '../components/ContactInfo.vue';
         :price="bond.price"
         :is-recommended="bond.isRecommended"
         :image="bond.image"
+        :altText="bond.altText"
         /> 
     </div>
 

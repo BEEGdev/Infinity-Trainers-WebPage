@@ -1,8 +1,6 @@
 <script setup>
 import { ref } from 'vue';
 
-ref
-
 const isMenuVisible = ref(false);
     function showMobileMenu() {
     isMenuVisible.value = !isMenuVisible.value;
@@ -31,7 +29,10 @@ window.addEventListener('scroll', handleScroll);
                 <router-link to="/programs"><li class="p-1 rounded-md sm:px-1 align-middle hover:text-[#016646] hover:bg-white cursor-pointer transition duration-300">Nuestros entrenamientos</li></router-link>
                 <router-link to="/aboutus"><li class="p-1 rounded-md sm:px-1 align-middle hover:text-[#016646] hover:bg-white cursor-pointer transition duration-300">Sobre nosotros</li></router-link>
             </ul>
-        </nav>  
+        </nav>
+        <div>
+        <span>Iniciar sesión</span>
+        </div>  
         <div>
             <button class="relative group sm:hidden p-3" @click="showMobileMenu">
                 <div

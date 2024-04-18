@@ -6,7 +6,7 @@ import webTexts from '../webTexts.json'
 
 <template>
 <div>
-<div class="w-full h-64 bg-cover bg-bottom bg-[url('https://cloud1.email2go.io/7efeb6400e09756814e99049835fa47b/23b5fc088d6a832738d43b99ec0e9046974032ae693a57d29de7ccccfea3e03a.jpg')]"> </div>
+<div class="w-full h-64 bg-cover bg-bottom bg-[url('https://d2hbcuqreawz28.cloudfront.net/FAQ-header.webp')]"> </div>
     <div class="bg-[#016646] text-white p-8 text-center">
         <h1 class="p-1 font-extrabold text-2xl text-center">Entrenador personal a Tu Puerta, Transforma Tu Espacio en lugar ideal para entrenar con Infinity Trainers</h1>
         <p class="p-7">

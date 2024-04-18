@@ -6,7 +6,8 @@
             "description" : "Comienza en el entrenamiento personal por la puerta grande.En este paquete comenzarás un cambio que te guiará a conseguir los objetivos que te propongas", 
             "price" : "195",
             "isRecommended":false,
-            "image" : "https://d2hbcuqreawz28.cloudfront.net/card1.webp" 
+            "image" : "https://d2hbcuqreawz28.cloudfront.net/card1.webp",
+            "altText": "foto de pareja haciendo ejercicio"
         },
         "bond_1" : { 
             "title" : "LIMITLESS", 
@@ -14,7 +15,8 @@
             "description" : "Diseñado para aquellos que buscan un gran cambio, un entrenamiento que te cambiará físicamente a pasos agigantados.", 
             "price" : "210",
             "isRecommended":true,
-            "image" : "https://d2hbcuqreawz28.cloudfront.net/card2.webp" 
+            "image" : "https://d2hbcuqreawz28.cloudfront.net/card2.webp",
+            "altText": "foto de un hombre levantando una mancuerna"
         },
         "bond_2" : { 
             "title" : "INFINITY ELITE", 
@@ -22,7 +24,8 @@
             "description" : "Nuestro paquete premium. Con todo un equipo de profesionales de la actividad física, nutricionistas y fisioterapeutas se coordinan para ofrecerte la transformación más increíble que hay en el sector.", 
             "price" : "800",
             "isRecommended":false,
-            "image" : "https://d2hbcuqreawz28.cloudfront.net/card3.webp"
+            "image" : "https://d2hbcuqreawz28.cloudfront.net/card3.webp",
+            "altText": "foto de una pareja haciendo ejercicios"
         }
     },
     "aboutUs":{

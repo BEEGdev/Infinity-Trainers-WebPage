@@ -28,7 +28,7 @@ import webTexts from '../webTexts.json'
     <span>Entrenamiento personal en Madrid desde la comodidad de tu casa</span>
     <router-link to="/aboutus" class="border p-2 w-9/12 rounded-md hover:bg-white hover:text-[#016646] sm:w-6/12 xl:w-4/12 cursor-pointer">Encontrar mi zona</router-link>
 </div> 
-<div class="grid grid-cols-1 place-items-center my-10">
+<div class="grid place-items-center my-10 w-full gap-20 drop-shadow-md md:my-24 lg:grid-flow-col lg:grid-cols-2 lg:gap-1 xl:gap-10 xl:w-10/12 xl:mx-auto">
     <Card  
         :title = "webTexts.bonds.bond_0.title"
         :subtitle = "webTexts.bonds.bond_0.subtitle"
