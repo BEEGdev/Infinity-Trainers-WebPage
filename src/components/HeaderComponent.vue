@@ -20,7 +20,7 @@ window.addEventListener('scroll', handleScroll);
 <template>
     <header class="flex w-full bg-[#016646] sm:justify-between px-4 text-white sm:bg-yellow-600 md:bg-orange-600 lg:bg-blue-600 xl:bg-gray-600 2xl:bg-[#016646] ">
         <nav class="self-center">
-            <router-link to="/"><span class=""><img src="https://d2hbcuqreawz28.cloudfront.net/logo-alt.png" alt="Infinity Trainers Logo" class="h-12 m-auto xl:m-0"></span></router-link>
+            <router-link to="/"><span class=""><img src="https://d2hbcuqreawz28.cloudfront.net/logo-alt.png" alt="Infinity Trainers Logo" class="h-12 m-auto xl:m-0 self-center"></span></router-link>
         </nav>
         <div class="sm:hidden m-auto sm:m-0 text-2xl text-center">Infinity Trainers</div>
         <nav class="sm:justify-right">

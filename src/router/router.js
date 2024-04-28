@@ -25,6 +25,12 @@ const routes = [
       props:true,
       name: "Login",
       component: () => import('../views/Login.vue')
+    }, 
+    {
+      path: "/personal",
+      props:true,
+      name: "Personal",
+      component: () => import('../views/PersonalArea.vue')
     },    
   ];
   
