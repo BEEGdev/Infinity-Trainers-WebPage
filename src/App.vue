@@ -1,12 +1,21 @@
 <script setup>
 import HeaderComponent from './components/HeaderComponent.vue';
 import FooterComponent from './components/FooterComponent.vue';
+import { ref } from 'vue';
+import { useFirebaseStore } from './stores/firebaseStore';
+
+const firebaseStore = useFirebaseStore();
+const isLogged = ref(false);  
+
+function getLogged (){
+  isLogged.value = firebaseStore.getLogged;
+}
 </script>
 
 <template>
 <div class="bg-white font-serif">
-<HeaderComponent/>
-<router-view v-slot="{ Component }">  
+<HeaderComponent :isLogged="isLogged"/>
+<router-view v-slot="{ Component }" @notifyHeader="getLogged()">  
   <transition name="fade" mode="out-in">
         <component :is="Component"/>
   </transition>

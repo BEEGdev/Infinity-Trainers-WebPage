@@ -1,5 +1,10 @@
-<script setup>
+<script setup>  
+import LoginWidget from '../components/LoginWidget.vue';
 import { ref } from 'vue';
+
+const props = defineProps({
+    isLogged:Boolean
+})
 
 const isMenuVisible = ref(false);
     function showMobileMenu() {
@@ -14,7 +19,6 @@ const handleScroll= (e) => {
 }
 
 window.addEventListener('scroll', handleScroll);
-
 </script>
 
 <template>
@@ -30,9 +34,7 @@ window.addEventListener('scroll', handleScroll);
                 <router-link to="/aboutus"><li class="p-1 rounded-md sm:px-1 align-middle hover:text-[#016646] hover:bg-white cursor-pointer transition duration-300">Sobre nosotros</li></router-link>
             </ul>
         </nav>
-        <div>
-        <span>Iniciar sesión</span>
-        </div>  
+        <nav class="self-center"><LoginWidget :isLogged="props.isLogged"/></nav>
         <div>
             <button class="relative group sm:hidden p-3" @click="showMobileMenu">
                 <div

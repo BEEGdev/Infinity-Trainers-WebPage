@@ -1,6 +1,7 @@
 <script setup>
+import { storeToRefs } from 'pinia';
 import { useFirebaseStore } from '../stores/firebaseStore';
-import { ref ,watch} from 'vue';
+import { ref ,watch, onBeforeMount} from 'vue';
 const firebaseStore = useFirebaseStore()
 
 const isRegister = ref(false)
@@ -10,7 +11,8 @@ const password= ref('');
 const password2= ref('');
 const passwordStyle = ref('p-2 rounded-lg outline-none text-xl');
 const passwordStyle2 = ref('p-2 rounded-lg outline-none text-xl');
-const showError = ref(false);
+const error = storeToRefs(firebaseStore).getError;
+const errorMessage = storeToRefs(firebaseStore).getErrorMessage;
 const loginEmail= ref('');
 const loginPassword= ref('');
     
@@ -22,12 +24,9 @@ watch(password2,() => {
     password2.value.length < 6 ? passwordStyle2.value="p-2 rounded-lg text-red-600 outline-none text-xl" : passwordStyle2.value="p-2 rounded-lg text-green-600 outline-none text-xl";
 })
 
-
-const isInputOk = false;
-
 function handleToggle(){
-    console.log("ola");
-    showError.value = false
+    firebaseStore.modifyState('user.error',false);
+    firebaseStore.modifyState('user.errorMessage','');
     isRegister.value = !isRegister.value;
 }
 
@@ -40,21 +39,31 @@ function checkRegisterInput(){
         (password2.value > 6 ) &&
         (password.value === password2.value)
     ){
+        firebaseStore.modifyState('user.error',false);
+        firebaseStore.modifyState('user.errorMessage','');
         return true;
     }
 
     else{
+        firebaseStore.modifyState('user.error',true);
+        firebaseStore.modifyState('user.errorMessage','Datos de registro no válidos');
         return false;
     }
 }
 
 function registerUser(email,password,name){
-    checkRegisterInput() ? firebaseStore.registerUser(email,password,name) : showError.value = true;
+    checkRegisterInput() ? firebaseStore.registerUser(email,password,name) : firebaseStore.modifyState('user.error',true);
 }; 
 
 function loginUser(email,password){
-firebaseStore.doLogin(email,password);
+    firebaseStore.doLogin(email,password);
+
 }; 
+
+onBeforeMount(() => {
+    firebaseStore.checkStatus();   
+    firebaseStore.handleNavigationAccess();
+});
 
 </script>
 
@@ -65,7 +74,7 @@ firebaseStore.doLogin(email,password);
                 <form @submit.prevent="onSubmit" class="grid grid-cols-1 gap-10">
                     <input type="email" v-model="loginEmail" placeholder="Correo electrónico" required class="p-2 rounded-lg outline-none text-xl">
                     <input type="password" v-model="loginPassword" placeholder="Contraseña" required class="p-2 rounded-lg outline-none text-xl">
-                    <button @click="loginUser(loginEmail,loginPassword)" class="bg-white w-6/12 py-2 rounded-lg font-semibold mx-auto outline-none" >Iniciar sesión</button>
+                    <button @click="loginUser(loginEmail,loginPassword)" class="bg-white w-6/12 py-2 rounded-lg font-semibold mx-auto outline-none text-[#016646]" >Iniciar sesión</button>
                 </form>
                 <p class="text-white mx-auto">¿No tienes una cuenta? <span @click="handleToggle()" class="font-bold cursor-pointer underline">regístrate</span> </p>
             </div>
@@ -76,11 +85,11 @@ firebaseStore.doLogin(email,password);
                     <input type="text" placeholder="Nombre" v-model="name" required class="p-2 rounded-lg outline-none text-xl">
                     <input type="password" placeholder="Contraseña" v-model="password" required :class="passwordStyle">
                     <input type="password" placeholder="Repetir contraseña" v-model="password2"  required :class="passwordStyle2">
-                    <button @click="registerUser(email,password,name)" class="bg-white w-6/12 py-2 rounded-lg font-semibold mx-auto">Registrar</button>
+                    <button @click="registerUser(email,password,name)" class="bg-white w-6/12 py-2 rounded-lg font-semibold mx-auto text-[#016646]">Registrar</button>
                 </form>
                     <p class="text-white mx-auto">¿Ya tienes una cuenta? <span @click="handleToggle()" class="font-bold cursor-pointer underline">inicia sesión</span> </p>   
             </div>
-            <p class="text-red-600 font-bold text-lg" v-show="showError">No se ha podido <span v-show="!isRegister">iniciar sesión</span> <span v-show="isRegister">hacer el registro</span></p>
+            <p class="text-red-600 font-bold text-lg" v-show="error">{{ errorMessage }}</p>
     </div>
     
 </template>
