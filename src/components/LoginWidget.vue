@@ -20,7 +20,6 @@ const name = ref('Sesión iniciada')
 </script>
 
 <template>
-
     <div v-if="!isLogged" class="sm:text-lg md:text-lg lg:text-2xl sm:gap-5 p-">
         <RouterLink to="/login"><span class="">Iniciar sesión</span></RouterLink>
     </div>

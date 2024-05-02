@@ -11,7 +11,7 @@ const isMenuVisible = ref(false);
     isMenuVisible.value = !isMenuVisible.value;
     } 
 
-const handleScroll= (e) => {
+const handleScroll= () => {
     
     if (isMenuVisible.value == true){
         isMenuVisible.value = false;
@@ -34,7 +34,7 @@ window.addEventListener('scroll', handleScroll);
                 <router-link to="/aboutus"><li class="p-1 rounded-md sm:px-1 align-middle hover:text-[#016646] hover:bg-white cursor-pointer transition duration-300">Sobre nosotros</li></router-link>
             </ul>
         </nav>
-        <nav class="self-center"><LoginWidget :isLogged="props.isLogged"/></nav>
+        <nav class="self-center hidden sm:flex"><LoginWidget :isLogged="props.isLogged"/></nav>
         <div>
             <button class="relative group sm:hidden p-3" @click="showMobileMenu">
                 <div
@@ -56,6 +56,7 @@ window.addEventListener('scroll', handleScroll);
     <div class="w-screen absolute">
         <nav class="sm:hidden justify-end w-full" v-if="isMenuVisible">
             <ul class="text-right text-white text-2xl">
+                <li class="p-6 sm:px-2 bg-[#016646]" @click="showMobileMenu"><LoginWidget :isLogged="props.isLogged"/></li>
                 <router-link to="/"><li class="p-6 sm:px-2 bg-[#016646]" @click="showMobileMenu">Inicio</li></router-link>
                 <router-link to="/programs"><li class="p-6 sm:px-2 bg-[#016646]" @click="showMobileMenu">Nuestros entrenamientos</li></router-link>
                 <router-link to="/aboutus"><li class="p-6 sm:px-2 bg-[#016646]"@click="showMobileMenu">Sobre nosotros</li></router-link>
