@@ -2,20 +2,11 @@
 import { computed, ref , watch} from 'vue' 
 import { RouterLink } from 'vue-router';
 import { useFirebaseStore } from '../stores/firebaseStore';
+import { storeToRefs } from 'pinia';
 const firebaseStore = useFirebaseStore();
 
-const props = defineProps({
-    isLogged:Boolean
-})
-
-const loginStatus = ref(false);
-
-watch(()=>props.isLogged, (newStatus) => {
-    loginStatus.value = newStatus;
-    name.value=firebaseStore.getName;
-})
-
-const name = ref('Sesión iniciada')
+const isLogged= storeToRefs(firebaseStore).getLogged
+const name= storeToRefs(firebaseStore).getName
 
 </script>
 

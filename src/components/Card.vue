@@ -25,7 +25,7 @@ const props = defineProps({
                     </p>
                     <span class="font-extrabold text-lg lg:text-base">Desde {{price}} €</span>
                 </div>
-            <button class="p-6 text-2xl font-semibold bg-[#A88A5E] w-full rounded-b-xl lg:text-base lg:p-4">Quiero verlo</button>
+            <a href="https://api.whatsapp.com/send?phone=644233409" class="p-6 text-2xl font-semibold bg-[#A88A5E] w-full rounded-b-xl lg:text-base lg:p-4">Reservar</a>
         </div>
 </div>        
 </template>
