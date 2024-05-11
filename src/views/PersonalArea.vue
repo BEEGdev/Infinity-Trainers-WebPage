@@ -2,6 +2,7 @@
 import { ref, onBeforeMount, watch} from 'vue';
 import { useFirebaseStore } from '../stores/firebaseStore';
 import { storeToRefs } from 'pinia';
+import Courses from '../components/Courses.vue';
 
 
 const firebaseStore = useFirebaseStore();
@@ -14,6 +15,9 @@ const isTab1=ref(true);
 const isTab2=ref(false);
 const tabText=ref('Mis cursos');
 const tabText2=ref('Mis documentos');
+const tabStyle1 = ref('text-[#016646] border-b-2 border-[#0166465f] hover:bg-[#5bcfaa43] bg-[#5bcfaa43] cursor-pointer self-center');
+const tabStyle2 = ref('text-[#016646] border-b-2 border-[#0166465f] hover:bg-[#5bcfaa43] cursor-pointer self-center');
+const showModalForm = ref(false);
 
 function handleTab(tab) {
 
@@ -21,28 +25,33 @@ function handleTab(tab) {
         case 1 :
             isTab1.value=true;
             isTab2.value=false;
+            tabStyle1.value='text-[#016646] border-b-2 border-[#0166465f] hover:bg-[#5bcfaa43] bg-[#5bcfaa43] cursor-pointer self-center';
+            tabStyle2.value='text-[#016646] border-b-2 border-[#0166465f] hover:bg-[#5bcfaa43] cursor-pointer self-center';
         break;
         
         case 2:
             isTab1.value=false;
             isTab2.value=true;
+            tabStyle1.value='text-[#016646] border-b-2 border-[#0166465f] hover:bg-[#5bcfaa43] cursor-pointer self-center';
+            tabStyle2.value='text-[#016646] border-b-2 border-[#0166465f] hover:bg-[#5bcfaa43] bg-[#5bcfaa43] cursor-pointer self-center';
         break;
     }
     
 }
 
 watch(role, (newRole) => {
+
     if(newRole=='admin'){
         tabText.value = 'Cursos';
         tabText2.value = 'Usuarios';
-        firebaseStore.handleCourses();
+        firebaseStore.handleCourses('read');
     }
 
     if(newRole=='user'){
         tabText.value = 'Mis cursos';
         tabText2.value = 'Mis documentos';
-        firebaseStore.handleCourses();
-} 
+        firebaseStore.handleCourses('read');
+    } 
 
 })
 
@@ -62,6 +71,10 @@ function signOut(){
     firebaseStore.signOut();
     firebaseStore.checkStatus();
     
+}
+
+function handleModalForm(type,operation){
+    showModalForm.value = true;
 }
 
 </script>
@@ -84,7 +97,7 @@ function signOut(){
         </div>
     </div>
 
-    <div v-show="isVerified" class="h-screen flex flex-col gap-20">
+    <div v-show="isVerified" class="h-screen flex flex-col gap-14">
         <div class="flex justify-center gap-20 p-4 text-xl text-[#016646] text-center ">
             <p class="p-3 rounded-lg">{{ name }}</p>
             <p class="p-3 rounded-lg">{{ email }}</p>
@@ -92,14 +105,22 @@ function signOut(){
         </div>
 
         <div class="grid grid-cols-2 w-6/12 text-center font-black text-2xl self-center gap-24">
-            <p @click="handleTab(1)" class="text-[#016646] border-b-2 border-[#0166465f] hover:bg-[#5bcfaa43] cursor-pointer">{{ tabText }}</p>
-            <p @click="handleTab(2)" class="text-[#016646] border-b-2 border-[#0166465f] hover:bg-[#5bcfaa43] cursor-pointer">{{ tabText2 }}</p>
+            <p @click="handleTab(1)" :class="tabStyle1">{{ tabText }}</p>
+            <p @click="handleTab(2)" :class="tabStyle2">{{ tabText2 }}</p>
         </div>
 
-        <div v-show="isTab1">
+        <div v-show="isTab1" class="w-6/12 self-center grid grid-cols-1 gap-4">
+            <button @click="handleModalForm('course','add')" class="bg-[#016646] w-4/12 font-bold text-white rounded-lg p-2 cursor-pointer">Añadir curso</button>
+            <button @click="firebaseStore.handleCourses('write')" class="bg-[#016646] w-4/12 font-bold text-white rounded-lg p-2 cursor-pointer">crear</button>
+            <button @click="firebaseStore.handleCourses('update')" class="bg-[#016646] w-4/12 font-bold text-white rounded-lg p-2 cursor-pointer">actu</button>
+            <Courses/>
 
         </div>
         <div v-show="isTab2">
+            
+        </div>
+
+        <div v-show="showModalForm">
             
         </div>
     </div>

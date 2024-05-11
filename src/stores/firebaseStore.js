@@ -3,7 +3,8 @@ import {auth, firestore} from "../firebase";
 import { getAuth } from "firebase/auth";
 import { createUserWithEmailAndPassword , sendEmailVerification, updateProfile, signInWithEmailAndPassword,signOut} from "firebase/auth";
 import router from "../router/router";
-import { getFirestore, setDoc, doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { getFirestore, setDoc, doc, getDoc, collection, getDocs, updateDoc } from "firebase/firestore";
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -16,8 +17,12 @@ export const useFirebaseStore = defineStore('firebaseStore', {
             isVerified: false,
             role:'',
             error:false,
-            errorMessage:''
-        }
+            errorMessage:'',
+            courses: {},
+            documents:{},
+            coursesId:[]
+        },
+        userList:{}
 
     }),
     actions: {
@@ -34,7 +39,7 @@ export const useFirebaseStore = defineStore('firebaseStore', {
                 return;
             }
 
-                await setDoc(doc(db, "users", auth.currentUser.uid), {name:name, email:email , role:'user', courses:[], documents:[]});
+                await setDoc(doc(db, "users", auth.currentUser.uid), {name:name, email:email , role:'user', documents:{}, coursesId:[]},{merge:true});
 
                 await sendEmailVerification(auth.currentUser).catch((err) => console.log(err));
 
@@ -78,21 +83,97 @@ export const useFirebaseStore = defineStore('firebaseStore', {
             }
         },
 
-        async handleCourses(){
-            console.log('curses');
+        async handleCourses(operation,documentId,courseName,description,posts){
             const auth = getAuth();
             const db = firestore;
-            const coursesDoc = await getDocs(collection(db, "courses")).catch((err)=>(console.log(err)));
+            const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
+            const role = userDoc.data().role;
+            let coursesDoc;
             
-            coursesDoc.forEach((doc)=>console.log(doc.id)); 
+            const courseTemplate = {
+                name : '',
+                description : '',
+                posts : {}
+            }
+
+            switch (operation){
+                case 'read':
+                    if(role=='admin'){ 
+
+                        let course = Object.create(courseTemplate);
+
+                        coursesDoc = await getDocs(collection(db, "courses")).catch((err)=>(console.log(err)));
+
+                        coursesDoc.forEach((doc)=>{
+                            course.name = doc.data().name;
+                            course.description = doc.data().description;
+                            this.user.courses[doc.id]=course;
+                        });
+
+                        
+                    }
+
+                    if(role=='user'){
+                        
+                        coursesDoc = await getDocs(collection(db, "courses")).catch((err)=>(console.log(err)));
+                    }
+                    
+                break;
+
+                case 'write':
+                    if (role == 'admin'){
+
+                        await setDoc(doc(db, "courses",uuidv4()), {name:'courseName', description:'description' , posts:{} },{ merge: true }).catch((err)=>(console.log(err)));
+                        
+                    }
+                    
+                break;
+
+                case 'update':
+                    await updateDoc(doc(db, "courses",documentId), {name:courseName, description:description , posts:posts},{ merge: true }).catch((err)=>(console.log(err)));
+                break;
+
+                case 'delete':
+                    
+                break;
+            }
+
         },
 
-        async handleUserDocuments(){
+        async handleUser(){
             const auth = getAuth();
             const db = firestore;
             const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid)).catch((err)=>(console.log(err)));
-            this.userDocuments= userDoc.data().documents;
+            this.user.documents= userDoc.data().documents;
+            this.user.coursesId= userDoc.data().coursesId;
             coursesDoc.forEach((doc)=>console.log(doc.id));
+        },
+
+        async handleUserList(operation, name, email, role , documents, coursesId, userId){
+            const db = firestore;
+
+            let userTemplate ={name:name, email:email , role:role, documents:documents, coursesId:coursesId}
+
+            switch (operation){
+                case 'read':
+
+                    let user = Object.create(userTemplate);
+
+                    userList = await getDocs(collection(db, "users")).catch((err)=>(console.log(err)));
+                    userList.forEach((doc)=>{
+                        user.name = doc.name;
+                        user.email = doc.email;
+                        user.role = doc.role;
+                        user.documents = doc.documents;
+                        user.coursesId = doc.coursesId;
+                        this.user.userList[doc.id]=user;
+                    });
+                break;
+
+                case 'update':
+                    await updateDoc(doc(db, "users", userId), {name:courseName, description:description , posts:{}},{ merge: true }).catch((err)=>(console.log(err)));
+                break;
+            }
         },
 
         async checkStatus(reload){
@@ -103,7 +184,6 @@ export const useFirebaseStore = defineStore('firebaseStore', {
                 this.user.isLogged = true
 
                 const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
-                console.log("rol:"+userDoc.data().role);
                 if (reload) await auth.currentUser.reload();
 
                 
