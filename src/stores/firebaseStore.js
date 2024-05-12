@@ -3,7 +3,7 @@ import {auth, firestore} from "../firebase";
 import { getAuth } from "firebase/auth";
 import { createUserWithEmailAndPassword , sendEmailVerification, updateProfile, signInWithEmailAndPassword,signOut} from "firebase/auth";
 import router from "../router/router";
-import { getFirestore, setDoc, doc, getDoc, collection, getDocs, updateDoc } from "firebase/firestore";
+import { getFirestore, setDoc, doc, getDoc, collection, getDocs, updateDoc, deleteDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -89,28 +89,26 @@ export const useFirebaseStore = defineStore('firebaseStore', {
             const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
             const role = userDoc.data().role;
             let coursesDoc;
-            
-            const courseTemplate = {
-                name : '',
-                description : '',
-                posts : {}
-            }
 
             switch (operation){
                 case 'read':
                     if(role=='admin'){ 
-
-                        let course = Object.create(courseTemplate);
-
+                        this.user.courses={};
                         coursesDoc = await getDocs(collection(db, "courses")).catch((err)=>(console.log(err)));
 
                         coursesDoc.forEach((doc)=>{
-                            course.name = doc.data().name;
-                            course.description = doc.data().description;
+                            let course = {
+                                name : '',
+                                description : '',
+                                posts : {}
+                            }
+                
                             this.user.courses[doc.id]=course;
+                            this.user.courses[doc.id].name = doc.data().name;
+                            this.user.courses[doc.id].description = doc.data().description;
+                            this.user.courses[doc.id].posts = doc.data().posts;
                         });
 
-                        
                     }
 
                     if(role=='user'){
@@ -122,8 +120,7 @@ export const useFirebaseStore = defineStore('firebaseStore', {
 
                 case 'write':
                     if (role == 'admin'){
-
-                        await setDoc(doc(db, "courses",uuidv4()), {name:'courseName', description:'description' , posts:{} },{ merge: true }).catch((err)=>(console.log(err)));
+                        await setDoc(doc(db, "courses",uuidv4()), {name:courseName, description:description , posts:{} },{ merge: true }).catch((err)=>(console.log(err)));
                         
                     }
                     
@@ -134,7 +131,7 @@ export const useFirebaseStore = defineStore('firebaseStore', {
                 break;
 
                 case 'delete':
-                    
+                    await deleteDoc(doc(db, "courses",documentId)).catch((err)=>(console.log(err)))
                 break;
             }
 
@@ -151,22 +148,25 @@ export const useFirebaseStore = defineStore('firebaseStore', {
 
         async handleUserList(operation, name, email, role , documents, coursesId, userId){
             const db = firestore;
-
-            let userTemplate ={name:name, email:email , role:role, documents:documents, coursesId:coursesId}
-
             switch (operation){
                 case 'read':
+                    
+                    const userList = await getDocs(collection(db, "users")).catch((err)=>(console.log(err)));
 
-                    let user = Object.create(userTemplate);
-
-                    userList = await getDocs(collection(db, "users")).catch((err)=>(console.log(err)));
                     userList.forEach((doc)=>{
-                        user.name = doc.name;
-                        user.email = doc.email;
-                        user.role = doc.role;
-                        user.documents = doc.documents;
-                        user.coursesId = doc.coursesId;
-                        this.user.userList[doc.id]=user;
+                        let user = {
+                            name:'', 
+                            email:'', 
+                            role:'', 
+                            documents:{}, 
+                            coursesId:[]
+                        };
+                        this.userList[doc.id]=user;
+                        this.userList[doc.id].name = doc.data().name;
+                        this.userList[doc.id].email = doc.data().email;
+                        this.userList[doc.id].role = doc.data().role;
+                        this.userList[doc.id].documents = doc.data().documents;
+                        this.userList[doc.id].coursesId = doc.data().coursesId;
                     });
                 break;
 
@@ -247,6 +247,8 @@ export const useFirebaseStore = defineStore('firebaseStore', {
         getError: (state) => state.user.error,
         getErrorMessage: (state) => state.user.errorMessage,
         getRole: (state) => state.user.role,
+        getCourses: (state) => state.user.courses,
+        getUserList: (state) => state.userList,
     }
     
             }

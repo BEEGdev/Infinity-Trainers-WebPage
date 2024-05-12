@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 
 const firebaseStore = useFirebaseStore();
 
-const courses = storeToRefs(firebaseStore).getCourses;
+const userList = storeToRefs(firebaseStore).getUserList;
 const emit = defineEmits(['editCourse','openCourse'])
 
 
@@ -18,12 +18,16 @@ function editCourse(courseId){
 <template>
 <div class="grid grid-cols-1 gap-5">
 
-    <div v-for="(course,key) in courses" :key="key">
+    <div v-for="(user,key) in userList" :key="key">
         <div class="bg-white text-[#016646] p-6 rounded-lg shadow-lg shadow-gray-300 flex flex-row justify-between">
-            <div @click="emitIndex(key)" class="w-full">
+            <div @click="emitUserId(key)" class="w-full">
                 <div class="grid grid-cols-1 gap-5 align-middle">
-                    <p class="font-bold text-lg">{{ course.name }}</p>
-                    <p>{{ course.description }}</p>
+                    <p class="font-bold text-lg">{{ user.name }}</p>
+                    <div class="flex flex-row gap-9">
+                        <p>{{ user.email }}</p>
+                        <p>{{ user.role }}</p>
+                    </div>
+                    
                 </div>
         </div>
         <div class="align-middle">
