@@ -20,7 +20,8 @@ export const useFirebaseStore = defineStore('firebaseStore', {
             errorMessage:'',
             courses: {},
             documents:{},
-            coursesId:[]
+            coursesId:[],
+            userId:''
         },
         userList:{}
 
@@ -39,7 +40,7 @@ export const useFirebaseStore = defineStore('firebaseStore', {
                 return;
             }
 
-                await setDoc(doc(db, "users", auth.currentUser.uid), {name:name, email:email , role:'user', documents:{}, coursesId:[]},{merge:true});
+                await setDoc(doc(db, "users", auth.currentUser.uid), {name:name, email:email , role:'user', documents:{}, coursesId:[],creationDate:Date.now(),userId:auth.currentUser.uid},{merge:true});
 
                 await sendEmailVerification(auth.currentUser).catch((err) => console.log(err));
 
@@ -72,7 +73,7 @@ export const useFirebaseStore = defineStore('firebaseStore', {
                 this.user.error=false;
                 this.user.errorMessage='';
                 router.push({ path: '/personal' })
-                }
+            }
             
         },
 
@@ -113,7 +114,22 @@ export const useFirebaseStore = defineStore('firebaseStore', {
 
                     if(role=='user'){
                         
-                        coursesDoc = await getDocs(collection(db, "courses")).catch((err)=>(console.log(err)));
+                        this.user.courses={};
+
+                        for(let i = 0; i< this.user.coursesId.length;i++){
+                            const course = await getDoc(doc(db, "courses",this.user.coursesId[i])).catch((err)=>(console.log(err)));
+
+                            let newCourse = {
+                                name : '',
+                                description : '',
+                                posts : {}
+                            }    
+
+                            this.user.courses[course.id]=newCourse;
+                            this.user.courses[course.id].name = course.data().name;
+                            this.user.courses[course.id].description = course.data().description;
+                            this.user.courses[course.id].posts = course.data().posts;
+                        }
                     }
                     
                 break;
@@ -121,17 +137,20 @@ export const useFirebaseStore = defineStore('firebaseStore', {
                 case 'write':
                     if (role == 'admin'){
                         await setDoc(doc(db, "courses",uuidv4()), {name:courseName, description:description , posts:{} },{ merge: true }).catch((err)=>(console.log(err)));
-                        
                     }
                     
                 break;
 
                 case 'update':
-                    await updateDoc(doc(db, "courses",documentId), {name:courseName, description:description , posts:posts},{ merge: true }).catch((err)=>(console.log(err)));
+                    if (role == 'admin'){
+                        await updateDoc(doc(db, "courses",documentId), {name:courseName, description:description , posts:posts},{ merge: true }).catch((err)=>(console.log(err)));
+                    }
                 break;
 
                 case 'delete':
-                    await deleteDoc(doc(db, "courses",documentId)).catch((err)=>(console.log(err)))
+                    if (role == 'admin'){
+                        await deleteDoc(doc(db, "courses",documentId)).catch((err)=>(console.log(err)))
+                    }    
                 break;
             }
 
@@ -143,10 +162,10 @@ export const useFirebaseStore = defineStore('firebaseStore', {
             const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid)).catch((err)=>(console.log(err)));
             this.user.documents= userDoc.data().documents;
             this.user.coursesId= userDoc.data().coursesId;
-            coursesDoc.forEach((doc)=>console.log(doc.id));
+            console.log(this.user.documents);
         },
 
-        async handleUserList(operation, name, email, role , documents, coursesId, userId){
+        async handleUserList(operation, name, email, role , documents, coursesId, userId,creationDate){
             const db = firestore;
             switch (operation){
                 case 'read':
@@ -159,7 +178,9 @@ export const useFirebaseStore = defineStore('firebaseStore', {
                             email:'', 
                             role:'', 
                             documents:{}, 
-                            coursesId:[]
+                            coursesId:[],
+                            creationDate:'',
+                            userId:''
                         };
                         this.userList[doc.id]=user;
                         this.userList[doc.id].name = doc.data().name;
@@ -167,11 +188,12 @@ export const useFirebaseStore = defineStore('firebaseStore', {
                         this.userList[doc.id].role = doc.data().role;
                         this.userList[doc.id].documents = doc.data().documents;
                         this.userList[doc.id].coursesId = doc.data().coursesId;
+                        this.userList[doc.id].userId = doc.id;
                     });
-                break;
+                break;   
 
                 case 'update':
-                    await updateDoc(doc(db, "users", userId), {name:courseName, description:description , posts:{}},{ merge: true }).catch((err)=>(console.log(err)));
+                    await updateDoc(doc(db, "users", userId), {name:name, email:email , role:role, documents:documents, coursesId:coursesId, creationDate:creationDate,userId:userId},{ merge: true }).catch((err)=>(console.log(err)));
                 break;
             }
         },
@@ -249,6 +271,7 @@ export const useFirebaseStore = defineStore('firebaseStore', {
         getRole: (state) => state.user.role,
         getCourses: (state) => state.user.courses,
         getUserList: (state) => state.userList,
+        getDocuments: (state) => state.user.documents,
     }
     
             }

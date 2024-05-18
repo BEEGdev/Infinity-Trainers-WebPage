@@ -1,17 +1,35 @@
 <script setup>
-
+import { ref, watch} from 'vue';
 import { useFirebaseStore } from '../stores/firebaseStore';
 import { storeToRefs } from 'pinia';
 
 const firebaseStore = useFirebaseStore();
 
 const courses = storeToRefs(firebaseStore).getCourses;
-const emit = defineEmits(['editCourse','openCourse'])
+const role = storeToRefs(firebaseStore).getRole;
+const isAdmin = ref('false');
+const emit = defineEmits(['editCourse','viewCourse']);
 
-
+function viewCourse(courseId){
+    emit('viewCourse',courseId);
+}
 function editCourse(courseId){
     emit('editCourse',courseId);
 }
+
+watch(role, (newRole) => {
+
+if(newRole=='admin'){
+    isAdmin.value=true;
+}
+
+if(newRole=='user'){
+    isAdmin.value=false;
+} 
+
+})
+
+
 
 </script>
 
@@ -20,14 +38,14 @@ function editCourse(courseId){
 
     <div v-for="(course,key) in courses" :key="key">
         <div class="bg-white text-[#016646] p-6 rounded-lg shadow-lg shadow-gray-300 flex flex-row justify-between">
-            <div @click="emitIndex(key)" class="w-full">
+            <div @click="viewCourse(key)" class="w-full">
                 <div class="grid grid-cols-1 gap-5 align-middle">
                     <p class="font-bold text-lg">{{ course.name }}</p>
                     <p>{{ course.description }}</p>
                 </div>
         </div>
         <div class="align-middle">
-                <button class="hover:underline z-999" @click="editCourse(key)">Editar</button>
+                <button v-show="isAdmin" class="hover:underline z-999" @click="editCourse(key)">Editar</button>
             </div>
         </div>
     
