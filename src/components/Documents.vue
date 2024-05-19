@@ -21,7 +21,6 @@ function viewDoc(docId){
 
 <template>
 <div class="grid grid-cols-1 gap-5">
-
     <div v-for="(doc,key) in documents" :key="key">
         <div class="bg-white text-[#016646] p-6 rounded-lg shadow-lg shadow-gray-300 flex flex-row justify-between">
             <div @click="viewDoc(key)" class="w-full">

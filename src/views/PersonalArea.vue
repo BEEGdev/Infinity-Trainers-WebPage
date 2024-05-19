@@ -61,6 +61,7 @@ const docId=ref('');
 
 const postName = ref('');
 const videoLink = ref('');
+const embedInput=ref('');
 
 
 
@@ -104,6 +105,16 @@ watch(role, (newRole) => {
         isAdmin.value=false;
     } 
 
+})
+
+watch(embedInput, (newEmbed) => {
+let styleLess
+let styleLess2
+styleLess=newEmbed.replace('width="560" height="315"','')
+styleLess2=styleLess.replace('style="position: absolute; top: -100px; width: 1px; height: 1px;"','class="w-inherit h-inherit aspect-video"')
+videoLink.value=styleLess2
+console.log(styleLess)
+console.log(videoLink.value)
 })
 
 onBeforeMount(() => {
@@ -264,16 +275,6 @@ function handleForms(operation,cancel){
             }
 
         break;
-
-        case 'close':
-            isAddCourse.value=false
-            isEditCourse.value=false
-            isCreatePost.value=false
-            showForms.value=false;
-            isEditPost.value=false
-            isEditUser.value=false
-            showTabs.value=true;
-        break;
     }
 }
 
@@ -342,7 +343,7 @@ function createPost(){
     isCreatePost.value=false;
     postName.value='';
     videoLink.value='';
-
+    embedInput.value='';
     newPost={
     }
 }
@@ -368,6 +369,7 @@ function updatePost(){
     isEditPost.value=false;
     postName.value='';
     videoLink.value='';  
+    embedInput.value='';
 }
 
 function deletePost(key,index){
@@ -541,41 +543,43 @@ function viewDoc(key){
 
 <template>
     <div>
+    
     <div v-show="!isVerified" class="h-screen flex items-center justify-center flex-col gap-5 w-9/12 m-auto">
+        <button @click="signOut()" class="bg-[#016646] hover:bg-white hover:text-[#016646] text-white px-2 rounded-lg font-bold">Cerrar sesión</button>
         <div class="flex justify-center items-center flex-col gap-5">
             <p>¡Hola <span class="text-[#016646] font-semibold">{{ name }}</span>!</p>
             <p>Para acceder debes verificar tu identidad a través del correo que hemos enviado a <span class="text-[#016646] font-semibold"> {{ email }}</span></p>
         </div>
         <div class="flex justify-center items-center flex-col gap-5">
             <p>Pulsa este botón cuando hayas completado la verificación en tu correo</p>
-            <button @click="verificationReCheck()" class="bg-[#016646] text-white p-2 rounded-lg font-bold">Comprobar verificación</button>
+            <button @click="verificationReCheck()" class="bg-[#016646] hover:bg-white hover:text-[#016646] text-white p-2 rounded-lg font-bold">Comprobar verificación</button>
         </div>
         
         <div class="flex justify-center items-center flex-col gap-5">
             <p>¿No has recibido tu correo o el enlace ha caducado?</p>
-            <button @click="firebaseStore.resendVerificationEmail()" class="bg-[#016646] text-white p-2 rounded-lg font-bold">Reenviar correo de verificación</button>
+            <button @click="firebaseStore.resendVerificationEmail()" class="bg-[#016646] hover:bg-white hover:text-[#016646] text-white p-2 rounded-lg font-bold">Reenviar correo de verificación</button>
         </div>
     </div>
 
     <div v-show="isVerified" class="h-full flex flex-col gap-20">
-        <div class="flex justify-center gap-20 p-4 text-xl text-[#016646] text-center ">
+        <div class="flex flex-col md:flex-row justify-center md:gap-20 p-4 text-xl text-[#016646] text-center items-center">
             <p class="p-3 rounded-lg">{{ name }}</p>
             <p class="p-3 rounded-lg">{{ email }}</p>
-            <button @click="signOut()" class="bg-[#016646] text-white px-2 rounded-lg font-bold">Cerrar sesión</button>
+            <button @click="signOut()" class="bg-[#016646] hover:bg-white hover:text-[#016646] text-white px-2 md:px-0 rounded-lg font-bold  w-5/12 md:w-3/12 lg:w-2/12 py-2 text-sm md:text-lg">Cerrar sesión</button>
         </div>
 
 
-        <div v-show="showTabs" class="flex  flex-col h-screen gap-10 ">
-            <div class="grid grid-cols-2 w-6/12 text-center font-black text-2xl self-center gap-24">
-                <p @click="handleTab(1)" :class="tabStyle1">{{ tabText }}</p>
-                <p @click="handleTab(2)" :class="tabStyle2">{{ tabText2 }}</p>
+        <div v-show="showTabs" class="flex flex-col h-screen gap-10">
+            <div class="grid grid-cols-2 w-11/12 md:w-6/12 text-center font-black text-lg self-center gap-24 place">
+                <p @click="handleTab(1)" :class="tabStyle1" class="h-full">{{ tabText }}</p>
+                <p @click="handleTab(2)" :class="tabStyle2" class="h-full">{{ tabText2 }}</p>
             </div>
             
-            <div v-show="isTab1" class="w-6/12 self-center grid grid-cols-1 gap-4">
-                <button v-show="isAdmin" @click="handleForms('add-course')" class="bg-[#016646] w-2/12 font-bold text-white rounded-lg p-2 cursor-pointer">Añadir curso</button>
+            <div v-show="isTab1" class="w-11/12 md:w-6/12 self-center grid grid-cols-1 gap-4">
+                <button v-show="isAdmin" @click="handleForms('add-course')" class="bg-[#016646] w-6/12 md:w-4/12 font-bold text-white rounded-lg p-2 cursor-pointer">Añadir curso</button>
                 <Courses @editCourse="editCourse($event)" @viewCourse="viewCourse($event)"/>
             </div>
-            <div v-show="isTab2" class="w-6/12 self-center grid grid-cols-1 gap-4">
+            <div v-show="isTab2" class="w-11/12 md:w-6/12 self-center grid grid-cols-1 gap-4">
                 <Users @editUser="editUser($event)" @viewUser="viewUser($event)"/>
                 <Documents @viewDoc="viewDoc($event)"/>
             </div>
@@ -583,61 +587,59 @@ function viewDoc(key){
 
         <div v-show="showForms">
 
-            <button @click="handleForms('close')" class="bg-[#016646] px-4 font-bold text-white rounded-lg cursor-pointer">X</button>
-
-            <div v-show="isViewCourse"  class="bg-white w-6/12 m-auto grid grid-cols-1 p-20 rounded-lg shadow-lg text-center gap-8">
+            <div v-show="isViewCourse"  class="bg-white w-11/12 lg:w-9/12 xl:8/12 mx-auto grid grid-cols-1 p-2 md:p-20 rounded-lg shadow-lg text-center gap-8">
                 
-            <button @click="handleForms('view-course','cancel')" class="bg-[#016646] px-4 font-bold text-white rounded-lg cursor-pointer w-1/12">X</button>
+            <button @click="handleForms('view-course','cancel')" class="bg-[#016646] hover:bg-white hover:text-[#016646] px-4 font-bold text-white rounded-lg cursor-pointer w-8/12 sm:w-3/12 md:w-5/12 lg:w-4/12 justify-self-center">Cerrar</button>
                     <div  class=" grid grid-cols-1 text-center gap-6 justify-items-center" >
                         <h4 class="text-xl text-[#016646] font-bold">{{ courseName }}</h4>
                         <p>{{ courseDescription }}</p>
                     </div>
-                    <div class="w-full flex  justify-center">
+                    <div class="w-full flex justify-center">
                         <h4 class="text-lg text-[#016646] font-bold mt-20 border-[#016646] border-b-2 p-2 w-6/12">Publicaciones</h4>
                     </div>
-                    <div v-for="(post) in orderedPosts">
-                        <div class="grid grid-cols-1 justify-items-center text-lg text-[#016646] font-bold gap-8 rounded-lg shadow-lg bg-gray-50 p-10">
+                    <div v-for="(post) in orderedPosts" class="w-full lg:w-8/12 mx-auto items-center">
+                        <div class="grid grid-cols-1 justify-items-center text-lg text-[#016646] font-bold gap-8 rounded-lg shadow-lg bg-gray-50 p-10 w-full lg:w-10/12 mx-auto">
                             <p>{{ post.name }}</p>
-                            <div v-html="post.link"></div>
+                                <div v-html="post.link" class="aspect-video"></div>
                         </div>
                     </div>
             </div>
 
-            <div v-show="isEditCourse"  class="bg-white w-6/12 m-auto grid grid-cols-1 p-20 rounded-lg shadow-lg text-center gap-8">
-                <button @click="deleteCourse()" class="bg-red-500 py-2 rounded-lg text-white font-bold text-sm w-2/12">Eliminar curso</button>
+            <div v-show="isEditCourse"  class="bg-white w-11/12 lg:w-9/12 xl:8/12 m-auto grid grid-cols-1 md:p-20 rounded-lg shadow-lg text-center gap-8">
+                <button @click="deleteCourse()" class="bg-red-500 hover:bg-white hover:text-red-500 py-2 rounded-lg text-white font-bold text-sm w-10/12 sm:w-4/12 md:w-3/12 mx-auto">Eliminar curso</button>
                     <h4 class="text-xl text-[#016646] font-bold">Editar curso</h4>
-                    <form @submit.prevent="onSubmit" class=" grid grid-cols-1 text-center gap-6 justify-items-center" >
-                        <input v-model="courseName" type="text" placeholder="Nombre del curso" class="w-6/12 border-4 border-[#016646] p-2 rounded-lg">
-                        <input v-model="courseDescription" type="text" placeholder="Descripción" class="w-6/12 border-4 border-[#016646] p-2 rounded-lg">
-                        <div class="flex flex-row gap-20 text-lg">
-                            <button @click="handleForms('edit-course','cancel')" class="bg-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
-                            <button @click="updateCourse()" class="bg-green-500 py-2 px-4 rounded-lg text-white font-bold">Guardar</button>
+                    <form @submit.prevent="onSubmit" class=" grid grid-cols-1 text-center gap-6 justify-items-center items-center" >
+                        <input v-model="courseName" type="text" placeholder="Nombre del curso" class="w-11/12 md:w-8/12 border-4 border-[#016646] p-2 rounded-lg">
+                        <input v-model="courseDescription" type="text" placeholder="Descripción" class="w-11/12 md:w-8/12 border-4 border-[#016646] p-2 rounded-lg">
+                        <div class="flex flex-row gap-10 sm:gap-20 text-lg w-full lg:w-8/12 place-content-center">
+                            <button @click="handleForms('edit-course','cancel')" class="bg-gray-400 hover:bg-white hover:text-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
+                            <button @click="updateCourse()" class="bg-green-500 hover:bg-white hover:text-green-500 py-2 px-4 rounded-lg text-white font-bold">Guardar</button>
                         </div>
                     </form>
                     <div class="w-full flex  justify-center">
                         <h4 class="text-lg text-[#016646] font-bold mt-20 border-[#016646] border-b-2 p-2 w-6/12">Publicaciones</h4>
                     </div>
-                    <button v-show="isAdmin" @click="handleForms('create-post')" class="bg-[#016646] w-3/12 font-bold text-white rounded-lg p-2 cursor-pointer">Añadir publicación</button>
-                    <div v-for="(post,index) in orderedPosts">
-                        <div class="grid grid-cols-1 justify-items-center text-lg text-[#016646] font-bold gap-8 rounded-lg shadow-lg bg-gray-50 p-10">
+                    <button v-show="isAdmin" @click="handleForms('create-post')" class="bg-[#016646] hover:bg-white hover:text-[#016646] w-8/12 md:w-3/12 font-bold text-white rounded-lg p-2 cursor-pointer mx-auto mb-5">Añadir publicación</button>
+                    <div v-for="(post,index) in orderedPosts" class="w-full lg:w-8/12 mx-auto items-center">
+                        <div class="grid grid-cols-1 justify-items-center text-lg text-[#016646] font-bold gap-8 rounded-lg shadow-lg bg-gray-50 p-10 w-full lg:w-10/12 mx-auto">
                             <p>{{ post.name }}</p>
                             <div v-html="post.link"></div>
                             <div class="flex flex-row gap-20 text-lg">
-                            <button @click="deletePost(post.id,index)" class="bg-red-600 py-2 px-4 rounded-lg text-white font-bold">Borrar</button>
-                            <button @click="editPost(post.id,index)" class="bg-green-500 py-2 px-4 rounded-lg text-white font-bold">Editar</button>
+                            <button @click="deletePost(post.id,index)" class="bg-red-600 hover:bg-white hover:text-red-600 py-2 px-4 rounded-lg text-white font-bold">Borrar</button>
+                            <button @click="editPost(post.id,index)" class="bg-green-500 hover:bg-white hover:text-red-500 py-2 px-4 rounded-lg text-white font-bold">Editar</button>
                         </div>
                         </div>
                     </div>
             </div>
 
             <div v-show="isAddCourse">
-                <form @submit.prevent="onSubmit" class="bg-white w-6/12 m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-8 justify-items-center h-full" >
+                <form @submit.prevent="onSubmit" class="bg-white md:w-8/12 lg:w-6/12 sm:m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-8 justify-items-center h-full" >
                     <h2 class="text-[#016646] font-bold text-lg">Crear curso</h2>
-                    <input v-model="courseName" type="text" placeholder="Nombre del curso" class="w-6/12 border-4 border-[#016646] p-2 rounded-lg">
-                    <input v-model="courseDescription" type="text" placeholder="Descripción" class="w-6/12 border-4 border-[#016646] p-2 rounded-lg">
+                    <input v-model="courseName" type="text" placeholder="Nombre del curso" class="w-11/12 md:w-8/12 lg:w-6/12 border-4 border-[#016646] p-2 rounded-lg">
+                    <input v-model="courseDescription" type="text" placeholder="Descripción" class="w-11/12 md:w-8/12 lg:w-6/12 border-4 border-[#016646] p-2 rounded-lg">
                     <div class=" flex flex-row gap-14 mb-40"> 
-                        <button @click="handleForms('add-course','cancel')" class="bg-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
-                        <button @click="createCourse()" class="bg-[#016646] w-8/12 font-bold text-white rounded-lg p-2 cursor-pointer">Crear curso</button>
+                        <button @click="handleForms('add-course','cancel')" class="bg-gray-400 hover:bg-white hover:text-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
+                        <button @click="createCourse()" class="bg-[#016646] hover:bg-white hover:text-[#016646] w-8/12 font-bold text-white rounded-lg p-2 cursor-pointer">Crear curso</button>
                     </div>
                     
                 </form>
@@ -646,38 +648,38 @@ function viewDoc(key){
             
             <div v-show="isCreatePost">
                 
-                <form @submit.prevent="onSubmit" class="bg-white w-6/12 m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-8 justify-items-center h-full">
+                <form @submit.prevent="onSubmit" class="bg-white md:w-8/12 lg:w-6/12 sm:m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-8 justify-items-center h-full">
                     <h2 class="text-[#016646] font-bold text-lg">Crear publicación</h2>
-                    <input v-model="postName" type="text" placeholder="Título" class="w-6/12 border-4 border-[#016646] p-2 rounded-lg">
-                    <input v-model="videoLink" type="text" placeholder="Enlace" class="w-6/12 border-4 border-[#016646] p-2 rounded-lg">
+                    <input v-model="postName" type="text" placeholder="Título" class="w-11/12 md:w-8/12 lg:w-6/12 border-4 border-[#016646] p-2 rounded-lg">
+                    <input v-model="embedInput" type="text" placeholder="Enlace" class="w-11/12 md:w-8/12 lg:w-6/12 border-4 border-[#016646] p-2 rounded-lg">
                     <div v-html="videoLink" class=""></div>
 
                     <div class=" flex flex-row gap-14 mb-40">
-                        <button @click="handleForms('create-post','cancel')" class="bg-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
-                        <button @click="createPost()" class="bg-[#016646] w-8/12 font-bold text-white rounded-lg p-2 cursor-pointer">Crear publicación</button>
+                        <button @click="handleForms('create-post','cancel')" class="bg-gray-400 hover:bg-white hover:text-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
+                        <button @click="createPost()" class="bg-[#016646] hover:bg-white hover:text-[#016646] w-8/12 font-bold text-white rounded-lg p-2 cursor-pointer">Crear publicación</button>
                     </div>
                     
                 </form>
             </div>
 
             <div v-show="isEditPost" >
-                <form @submit.prevent="onSubmit" class="bg-white w-6/12 m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-8 justify-items-center h-full">
+                <form @submit.prevent="onSubmit" class="bg-white md:w-8/12 lg:w-6/12 sm:m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-8 justify-items-center h-full">
                     <h2 class="text-[#016646] font-bold text-lg">Crear publicación</h2>
-                    <input v-model="postName" type="text" placeholder="Título" class="w-6/12 border-4 border-[#016646] p-2 rounded-lg">
-                    <input v-model="videoLink" type="text" placeholder="Enlace" class="w-6/12 border-4 border-[#016646] p-2 rounded-lg">
+                    <input v-model="postName" type="text" placeholder="Título" class="w-11/12 md:w-8/12 lg:w-6/12 border-4 border-[#016646] p-2 rounded-lg">
+                    <input v-model="videoLink" type="text" placeholder="Enlace" class="w-11/12 md:w-8/12 lg:w-6/12 border-4 border-[#016646] p-2 rounded-lg">
                     <div v-html="videoLink" class=""></div>
 
                     <div class=" flex flex-row gap-14 mb-40">
-                        <button @click="handleForms('edit-post','cancel')" class="bg-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
-                        <button @click="updatePost()" class="bg-[#016646] w-8/12 font-bold text-white rounded-lg p-2 cursor-pointer">Guardar</button>
+                        <button @click="handleForms('edit-post','cancel')" class="bg-gray-400 hover:bg-white hover:text-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
+                        <button @click="updatePost()" class="bg-[#016646] hover:bg-white hover:text-[#016646] w-8/12 font-bold text-white rounded-lg p-2 cursor-pointer">Guardar</button>
                     </div>
                     
                 </form>
             </div>
 
             <div v-show="isViewUser">
-                <div  class="bg-white w-6/12 m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-10 justify-items-center">
-                    <button @click="handleForms('view-user','cancel')" class="bg-[#016646] px-4 font-bold text-white rounded-lg cursor-pointer w-1/12">X</button>
+                <div  class=" bg-white w-11/12 lg:w-9/12 xl:8/12 mx-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-10 justify-items-center">
+                    <button @click="handleForms('view-user','cancel')" class="bg-[#016646] hover:bg-white hover:text-[#016646] px-2 font-bold text-white rounded-lg cursor-pointer w-6/12 sm:w-3/12 md:w-2/12 xl:w-1/12 text-center">Cerrar</button>
                     <div class="flex flex-col text-xl gap-5 text-[#016646]">
                         <p>{{userName}}</p>
                         <p>{{userEmail}}</p>
@@ -685,16 +687,16 @@ function viewDoc(key){
                     </div>        
 
                     <div class="grid grid-cols-1 gap-5">
-                        <p class="text-2xl text-[#016646]">Cursos</p>
+                        <p class="text-2xl text-[#016646] font-bold">Cursos</p>
                             <div>
                                 <div v-for="course in userDisplayCourses" id="checkboxes" class="flex flex-row gap-2 text-lg text-[#016646]">
                                     <p for="check">{{ course }}</p>
                                 </div>
                             </div>
                         </div>
-                        <p class="text-2xl text-[#016646]">Documentos</p>
-                        <div v-for="(doc) in orderedDocs">
-                            <div class="grid grid-cols-1 justify-items-center text-lg text-[#016646] gap-8 rounded-lg shadow-lg bg-gray-50 p-10">
+                        <p class="text-2xl text-[#016646] font-bold">Documentos</p>
+                        <div v-for="(doc) in orderedDocs" class="mx-auto items-center w-11/12 md:w-9/12">
+                            <div class="grid grid-cols-1 justify-items-center text-lg text-[#016646] gap-8 rounded-lg shadow-lg bg-gray-50 p-10 w-full ">
                                 <p class=" font-bold">{{ doc.title }}</p>
                                 <p class="font-lg">{{ doc.text }}</p>
                             </div>
@@ -703,7 +705,7 @@ function viewDoc(key){
             </div>
 
             <div v-show="isEditUser">
-                <form @submit.prevent="onSubmit" class="bg-white w-6/12 m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-10 justify-items-center">
+                <form @submit.prevent="onSubmit" class="bg-white w-11/12 lg:w-9/12 xl:8/12 mx-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-10 justify-items-center">
                     
                     <div class="flex flex-col text-xl gap-5 text-[#016646]">
                         <p>{{userName}}</p>
@@ -716,8 +718,8 @@ function viewDoc(key){
                     </div>
 
                     <div class=" flex flex-row gap-14 mb-10">
-                        <button @click="handleForms('edit-user','cancel')" class="bg-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
-                        <button @click="updateUser()" class="bg-[#016646] w-8/12 font-bold text-white rounded-lg p-2 cursor-pointer">Guardar</button>
+                        <button @click="handleForms('edit-user','cancel')" class="bg-gray-400 hover:bg-white hover:text-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
+                        <button @click="updateUser()" class="bg-[#016646] hover:bg-white hover:text-[#016646] w-8/12 font-bold text-white rounded-lg p-2 cursor-pointer">Guardar</button>
                     </div>
                     
                     <div class="grid grid-cols-1 gap-5">
@@ -730,14 +732,14 @@ function viewDoc(key){
                             </div>
                         </div>
                         <p class="text-2xl text-[#016646]">Documentos</p>
-                        <button v-show="isAdmin" @click="handleForms('add-document')" class="bg-[#016646] w-3/12 font-bold text-white rounded-lg p-2 cursor-pointer">Añadir documento</button>
-                        <div v-for="(doc,key,index) in orderedDocs">
-                            <div class="grid grid-cols-1 justify-items-center text-lg text-[#016646] gap-8 rounded-lg shadow-lg bg-gray-50 p-10">
+                        <button v-show="isAdmin" @click="handleForms('add-document')" class="bg-[#016646] hover:bg-white hover:text-[#016646] w-10/12 sm:w-3/12 font-bold text-white rounded-lg p-2 cursor-pointer">Añadir documento</button>
+                        <div v-for="(doc,key,index) in orderedDocs" class="w-full lg:w-8/12 mx-auto ">
+                            <div class="grid grid-cols-1 justify-items-center text-lg text-[#016646] gap-8 rounded-lg shadow-lg bg-gray-50 p-10 w-full lg:w-10/12 mx-auto ">
                                 <p class=" font-bold">{{ doc.title }}</p>
                                 <p class="font-lg">{{ doc.text }}</p>
-                                <div class="flex flex-row gap-20 text-lg">
-                                    <button @click="deleteDocument(doc.id,index)" class="bg-red-600 py-2 px-4 rounded-lg text-white font-bold">Borrar</button>
-                                    <button @click="editDocument(doc.id,index)" class="bg-green-500 py-2 px-4 rounded-lg text-white font-bold">Editar</button>
+                                <div class="flex flex-row gap-5 sm:gap-20 text-lg">
+                                    <button @click="deleteDocument(doc.id,index)" class="bg-red-600 hover:bg-white hover:text-red-600 py-2 px-4 rounded-lg text-white font-bold">Borrar</button>
+                                    <button @click="editDocument(doc.id,index)" class="bg-green-500 hover:bg-white hover:text-green-500 py-2 px-4 rounded-lg text-white font-bold">Editar</button>
                                 </div>
                             </div>
                         </div>
@@ -745,39 +747,38 @@ function viewDoc(key){
             </div>
 
             <div v-show="isAddDocument">
-                <form @submit.prevent="onSubmit" class="bg-white w-6/12 m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-8 justify-items-center h-full" >
+                <form @submit.prevent="onSubmit" class="bg-white md:w-8/12 lg:w-6/12 sm:m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-8 justify-items-center h-full" >
                     <h2 class="text-[#016646] font-bold text-lg">Añadir documento</h2>
-                    <input v-model="docTitle" type="text" placeholder="Título" class="w-6/12 border-4 border-[#016646] p-2 rounded-lg">
-                    <textarea v-model="docText" placeholder="Texto" class="w-6/12 border-4 border-[#016646] p-2 rounded-lg h-8/12" >{{ docText }}</textarea>
+                    <input v-model="docTitle" type="text" placeholder="Título" class="w-11/12 md:w-8/12 lg:w-6/12 border-4 border-[#016646] p-2 rounded-lg">
+                    <textarea v-model="docText" placeholder="Texto" class="w-11/12 md:w-8/12 lg:w-6/12 border-4 border-[#016646] p-2 rounded-lg h-8/12" >{{ docText }}</textarea>
                     <div class=" flex flex-row gap-14 mb-40"> 
-                        <button @click="handleForms('add-document','cancel')" class="bg-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
-                        <button @click="addDocument()" class="bg-[#016646] w-8/12 font-bold text-white rounded-lg p-2 cursor-pointer">Guardar</button>
+                        <button @click="handleForms('add-document','cancel')" class="bg-gray-400 hover:bg-white hover:text-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
+                        <button @click="addDocument()" class="bg-[#016646] hover:bg-white hover:text-[#016646] w-8/12 font-bold text-white rounded-lg p-2 cursor-pointer">Guardar</button>
                     </div>
                 </form>
                 
             </div>
 
             <div v-show="isEditDocument">
-                <form @submit.prevent="onSubmit" class="bg-white w-6/12 m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-8 justify-items-center h-full" >
+                <form @submit.prevent="onSubmit" class="bg-white md:w-8/12 lg:w-6/12 sm:m-auto m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-8 justify-items-center h-full" >
                     <h2 class="text-[#016646] font-bold text-lg">Añadir documento</h2>
-                    <input v-model="docTitle" type="text" placeholder="Título" class="w-6/12 border-4 border-[#016646] p-2 rounded-lg">
-                    <textarea v-model="docText" placeholder="Texto" class="w-6/12 border-4 border-[#016646] p-2 rounded-lg h-8/12" >{{ docText }}</textarea>
+                    <input v-model="docTitle" type="text" placeholder="Título" class="w-11/12 md:w-8/12 lg:w-6/12 border-4 border-[#016646] p-2 rounded-lg">
+                    <textarea v-model="docText" placeholder="Texto" class="w-11/12 md:w-8/12 lg:w-6/12 border-4 border-[#016646] p-2 rounded-lg h-8/12" >{{ docText }}</textarea>
                     <div class=" flex flex-row gap-14 mb-40"> 
-                        <button @click="handleForms('add-document','cancel')" class="bg-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
-                        <button @click="updateDocument()" class="bg-[#016646] w-8/12 font-bold text-white rounded-lg p-2 cursor-pointer">Guardar</button>
+                        <button @click="handleForms('edit-document','cancel')" class="bg-gray-400 hover:bg-white hover:text-gray-400 py-2 px-4 rounded-lg text-white font-bold">Cancelar</button>
+                        <button @click="updateDocument()" class="bg-[#016646] hover:bg-white hover:text-[#016646] w-8/12 font-bold text-white rounded-lg p-2 cursor-pointer">Guardar</button>
                     </div>
                 </form>
                 
             </div>
 
             <div v-show="isViewDoc">
-                <div  class="bg-white w-6/12 m-auto grid grid-cols-1 p-10 rounded-lg shadow-lg text-center gap-8 justify-items-center h-full" >
-                    <button @click="handleForms('view-document','cancel')" class="bg-[#016646] px-4 font-bold text-white rounded-lg cursor-pointer w-1/12">X</button>
-                    <h2 class="text-[#016646] font-bold text-lg">Ver Documento</h2>
-                    <p class="w-6/12  p-2 rounded-lg">{{ docTitle }}</p>
-                    <p class="w-6/12  p-2 rounded-lg">{{ docText }}</p>
+                <div  class="bg-white md:w-8/12 lg:w-6/12 sm:mx-auto flex flex-col p-10 rounded-lg shadow-lg text-center gap-8 items-center h-screen" >
+                    <button @click="handleForms('view-document','cancel')" class="bg-[#016646] hover:bg-white hover:text-[#016646] px-4 font-bold text-white rounded-lg cursor-pointer w-8/12 sm:w-3/12 md:w-5/12 lg:w-4/12 justify-self-center">Cerrar</button>
+                    <h2 class="text-[#016646] font-bold text-lg">{{ docTitle }}</h2>
+                    <p class="text-[#016646] w-full md:w-6/12  p-2 rounded-lg">{{ docText }}</p>
                 </div>
-            </div>
+            </div>  
         </div>
 
     </div>

@@ -22,7 +22,7 @@ function viewUser(key){
 <div class="grid grid-cols-1 gap-5">
 
     <div v-for="(user,key) in userList" :key="key">
-        <div class="bg-white text-[#016646] p-6 rounded-lg shadow-lg shadow-gray-300 flex flex-row justify-between">
+        <div class="bg-white text-[#016646] p-6 rounded-lg shadow-lg shadow-gray-300 flex flex-col sm:flex-row justify-between">
             <div @click="viewUser(key)" class="w-full">
                 <div class="grid grid-cols-1 gap-5 align-middle">
                     <p class="font-bold text-lg">{{ user.name }}</p>
@@ -30,10 +30,9 @@ function viewUser(key){
                         <p>{{ user.email }}</p>
                         <p>{{ user.role }}</p>
                     </div>
-                    
                 </div>
         </div>
-        <div class="align-middle">
+        <div class="align-middle mt-8 sm:mt-0">
                 <button class="hover:underline z-800" @click="editUser(key)">Editar</button>
             </div>
         </div>

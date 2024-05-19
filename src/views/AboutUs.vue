@@ -13,12 +13,14 @@ import webTexts from '../webTexts.json'
             Bienvenido a la experiencia definitiva de entrenamiento a domicilio en Madrid capital con Infinity Trainers. Aquí, tu comodidad y objetivos son nuestra prioridad. Olvídate de desplazamientos aglomeraciones y  limitaciones de tiempo; te traemos un servicio de entrenamiento personalizado que se adapta a tu ritmo de vida y necesidades. Descubre cómo cada rincón de tu hogar o de tu zona puede convertirse en el escenario perfecto para tu transformación física y mental.
         </p>
     </div>
+    <div class="my-40">
         <div class="grid grid-cols place-items-center my-14 gap-12">
             <InfoDropdown v-for="aboutUs in webTexts.aboutUs"
             :title="aboutUs.title"
             :text="aboutUs.text"
             :list="aboutUs.list"
             />
-</div>
-</div>
+        </div>
+    </div>
+    </div>
 </template>

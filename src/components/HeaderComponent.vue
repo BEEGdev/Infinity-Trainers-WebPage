@@ -35,7 +35,7 @@ window.addEventListener('scroll', handleScroll);
         <div>
             <button class="relative group sm:hidden p-3" @click="showMobileMenu">
                 <div
-                    class="relative flex items-center justify-center rounded-full w-[50px] h-[50px] transform transition-all bg-[#FAF3E0] ring-0 ring-gray-300 hover:ring-8 group-focus:ring-4 ring-opacity-30 duration-200 shadow-md">
+                    class="relative flex items-center justify-center rounded-full w-[50px] h-[50px] transform transition-all bg-white ring-0 ring-gray-300 hover:ring-8 group-focus:ring-4 ring-opacity-30 duration-200 shadow-md">
                     <div
                         class="flex flex-col justify-between w-[20px] h-[20px] transform transition-all duration-300 group-focus:-rotate-[45deg] origin-center">
                         <div
@@ -53,7 +53,7 @@ window.addEventListener('scroll', handleScroll);
     <div class="w-screen absolute">
         <nav class="sm:hidden justify-end w-full" v-if="isMenuVisible">
             <ul class="text-right text-white text-2xl">
-                <li class="p-6 sm:px-2 bg-[#016646]" @click="showMobileMenu"><LoginWidget :isLogged="props.isLogged"/></li>
+                <li class="p-6 sm:px-2 bg-[#016646]" @click="showMobileMenu"><LoginWidget/></li>
                 <router-link to="/"><li class="p-6 sm:px-2 bg-[#016646]" @click="showMobileMenu">Inicio</li></router-link>
                 <router-link to="/programs"><li class="p-6 sm:px-2 bg-[#016646]" @click="showMobileMenu">Nuestros entrenamientos</li></router-link>
                 <router-link to="/aboutus"><li class="p-6 sm:px-2 bg-[#016646]"@click="showMobileMenu">Sobre nosotros</li></router-link>

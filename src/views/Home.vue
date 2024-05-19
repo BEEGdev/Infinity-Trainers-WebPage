@@ -28,15 +28,50 @@ import webTexts from '../webTexts.json'
     <span>Entrenamiento personal en Madrid desde la comodidad de tu casa</span>
     <router-link to="/aboutus" class="border p-2 w-9/12 rounded-md hover:bg-white hover:text-[#016646] sm:w-6/12 xl:w-4/12 cursor-pointer">Encontrar mi zona</router-link>
 </div> 
-<div class="grid place-items-center my-10 w-full gap-20 drop-shadow-md md:my-24 lg:grid-flow-col lg:grid-cols-2 lg:gap-1 xl:gap-10 xl:w-10/12 xl:mx-auto">
-    <Card  
-        :title = "webTexts.bonds.bond_0.title"
-        :subtitle = "webTexts.bonds.bond_0.subtitle"
-        :description="webTexts.bonds.bond_0.description"
-        :price="webTexts.bonds.bond_0.price"
-        :isRecommended="webTexts.bonds.bond_0.isRecommended"
-        :image="webTexts.bonds.bond_0.image"
-    />
+<div class="grid place-items-center my-10 w-full gap-20 md:my-24 lg:grid-flow-col lg:grid-cols-2 lg:gap-1 xl:gap-10 xl:w-10/12 xl:mx-auto">
+
+        <Card  
+            :title = "webTexts.bonds.bond_0.title"
+            :subtitle = "webTexts.bonds.bond_0.subtitle"
+            :description="webTexts.bonds.bond_0.description"
+            :price="webTexts.bonds.bond_0.price"
+            :isRecommended="webTexts.bonds.bond_0.isRecommended"
+            :image="webTexts.bonds.bond_0.image"
+        />
+
+    <div class="h-full  grid grid-rows-3 w-11/12">
+        <div class=" rounded-xl shadow-md shadow-gray-300 row-span-2 p-12 flex flex-col justify-between">
+            <div class="flex flex-col gap-5">
+                <p class="text-[#016646] font-black text-3xl">¿ Ya eres miembro ?</p>
+                <p class="text-[#016646] text-xl">Entra en tu área personal</p>
+            </div>
+            <div class="w-full flex flex-col items-end">
+                <span class="w-8/12 md:w-4/12 lg:w-6/12 text-center font-bold text-lg text-white bg-[#016646] rounded-lg p-2 hover:bg-white hover:text-[#016646] cursor-pointer"> Iniciar sesión </span>
+            </div>       
+        </div>
+        <div class="p-12 rounded-xl shadow-md shadow-gray-300 flex flex-row justify-between">
+            <div class="flex flex-col gap-4">
+                <p class="text-2xl font-bold text-[#016646]">Nuestras redes</p>
+                <p class="text-[#016646] w-8/12 sm:w-full">Para que no te pierdas nada</p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-10 items-center justify-center align-middle">
+					<a href="https://www.instagram.com/infinity_trainers_/">
+						<svg xmlns="http://www.w3.org/2000/svg" class="transition duration-300 border-b-4 border-transparent hover:border-white rounded-b" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#016646" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+							<path d="M4 4m0 4a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z" />
+							<path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+							<path d="M16.5 7.5l0 .01" />
+						</svg>
+					</a>
+					<a href="https://www.facebook.com/profile.php?id=61550704021113&locale=es_ES">
+						<svg xmlns="http://www.w3.org/2000/svg" class="transition duration-300 border-b-4 border-transparent hover:border-white rounded-b" width="50" height="50" viewBox="0 0 24 24" stroke-width="1.2" stroke="#016646" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+							<path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+						</svg>
+					</a>
+			</div>
+        </div>
+    </div>
 </div>
 </div>
 </template>
