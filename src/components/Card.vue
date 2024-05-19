@@ -4,13 +4,16 @@ const props = defineProps({
     subtitle: String,
     description: String,
     price: String,
-    isRecommended: Boolean,
+    isRecommended: Boolean,//este bool controla la chapa de recomendado
     image: String,
     altText: String
 })
 </script>
 
+
+
 <template>
+    <!-- Este es el componente para las tarjetas de información sobre los programas -->
 <div class="flex flex-col items-center h-full w-10/12 sm:w-8/12 md:w-6/12 lg:w-10/12 xl:w-10/12 2xl:w-9/12">
     <span v-if="isRecommended" class="bg-[#C1FF83] self-start lg:w-1.5/12 rounded-t-md text-center text-sm p-1 text-[#016646] z-10 fixed -translate-y-7">Recomendado</span>
     <div class=" text-center rounded-md text-white  h-full grid grid-cols-1 shadow-lg"> 

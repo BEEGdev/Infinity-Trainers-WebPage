@@ -6,9 +6,9 @@ import router from "../router/router";
 import { getFirestore, setDoc, doc, getDoc, collection, getDocs, updateDoc, deleteDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid';
 
+//PINIA STORE PARA FIREBASE
 
-
-export const useFirebaseStore = defineStore('firebaseStore', {
+export const useFirebaseStore = defineStore('firebaseStore', { //declaración de estado
     state: () => ({
         user:{
             name:'',
@@ -26,12 +26,12 @@ export const useFirebaseStore = defineStore('firebaseStore', {
         userList:{}
 
     }),
-    actions: {
-        async registerUser(email,password,name) {
+    actions: { 
+        async registerUser(email,password,name) { //action para registrar un usuario nuevo
             const auth=getAuth();
             const db = firestore;
             try {
-                    await createUserWithEmailAndPassword(auth, email, password);
+                    await createUserWithEmailAndPassword(auth, email, password); //función de registro
                 }
             catch(err) {
                 console.log(err);
@@ -39,26 +39,29 @@ export const useFirebaseStore = defineStore('firebaseStore', {
                 this.user.errorMessage='No se ha podido hacer el registro';
                 return;
             }
-
+                //esta función crea un documento relacionado con el usuario en la base de datos
                 await setDoc(doc(db, "users", auth.currentUser.uid), {name:name, email:email , role:'user', documents:{}, coursesId:[],creationDate:Date.now(),userId:auth.currentUser.uid},{merge:true});
 
+                //envío de correo de verificación
                 await sendEmailVerification(auth.currentUser).catch((err) => console.log(err));
 
+                //guardado de username en el perfil de auth
                 await updateProfile(auth.currentUser, { displayName: name }).catch((err) => console.log(err));
                     
-                this.user.name = name;
+                this.user.name = name; //se rellena el estado
                 this.user.email = email;
                 this.user.isLogged =true;
                 this.user.error=false;
                 this.user.errorMessage='';
 
+                //si hay current user es que se ha registrado correctamente, así que se redirecciona a /personal
                 auth.currentUser?  router.push({ path: '/personal' }) :  router.push({ path: '/login' })
         },
 
-        async doLogin(email,password){
+        async doLogin(email,password){ //login
             const auth = getAuth();
             try {
-                await signInWithEmailAndPassword(auth, email, password)
+                await signInWithEmailAndPassword(auth, email, password) //se hace el login
             }
             catch(error){
                 console.log(error);
@@ -66,44 +69,44 @@ export const useFirebaseStore = defineStore('firebaseStore', {
                 this.user.errorMessage='No se ha podido iniciar sesión';
                 return;
             }
-            if (auth.currentUser){
-                this.user.name = auth.currentUser.displayName;
+            if (auth.currentUser){ //si hay current user es que se ha logeado
+                this.user.name = auth.currentUser.displayName; //se rellena el estado
                 this.user.email = auth.currentUser.email;
                 this.user.isLogged = true;
                 this.user.error=false;
                 this.user.errorMessage='';
-                router.push({ path: '/personal' })
+                router.push({ path: '/personal' }) //redirección a /personal
             }
             
         },
 
-        async resendVerificationEmail(){
+        async resendVerificationEmail(){ //reenviar email de verificación
             const auth = getAuth();
             if ( auth.currentUser.emailVerified == false ){
                 await sendEmailVerification(auth.currentUser).catch((err) => console.log(err));
             }
         },
 
-        async handleCourses(operation,documentId,courseName,description,posts){
+        async handleCourses(operation,documentId,courseName,description,posts){ //función maestra para manejo de cursos
             const auth = getAuth();
             const db = firestore;
-            const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
-            const role = userDoc.data().role;
+            const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid)); //doc del usuario actual a partir del id del currentUser
+            const role = userDoc.data().role; //rol del usuario
             let coursesDoc;
 
-            switch (operation){
+            switch (operation){ //este switch realiza todas las operaciones en función de la operación solicitada y el rol del usuario
                 case 'read':
                     if(role=='admin'){ 
-                        this.user.courses={};
-                        coursesDoc = await getDocs(collection(db, "courses")).catch((err)=>(console.log(err)));
+                        this.user.courses={}; //vaciado del objeto cursos del estado
+                        coursesDoc = await getDocs(collection(db, "courses")).catch((err)=>(console.log(err))); //trae todos los cursos
 
-                        coursesDoc.forEach((doc)=>{
-                            let course = {
+                        coursesDoc.forEach((doc)=>{ 
+                            let course = { //se declara objeto cursos vacío
                                 name : '',
                                 description : '',
                                 posts : {}
                             }
-                
+                            // rellenado del objeto cursos del estado
                             this.user.courses[doc.id]=course;
                             this.user.courses[doc.id].name = doc.data().name;
                             this.user.courses[doc.id].description = doc.data().description;
@@ -114,17 +117,18 @@ export const useFirebaseStore = defineStore('firebaseStore', {
 
                     if(role=='user'){
                         
-                        this.user.courses={};
+                        this.user.courses={}; 
 
-                        for(let i = 0; i< this.user.coursesId.length;i++){
+                        for(let i = 0; i< this.user.coursesId.length;i++){ //recorro la lista de id de cursos del usuario
+                            //traigo el curso que se corresponde con la id
                             const course = await getDoc(doc(db, "courses",this.user.coursesId[i])).catch((err)=>(console.log(err)));
 
-                            let newCourse = {
+                            let newCourse = {//se declara objeto cursos vacío
                                 name : '',
                                 description : '',
                                 posts : {}
                             }    
-
+                            // rellenado del objeto cursos del estado
                             this.user.courses[course.id]=newCourse;
                             this.user.courses[course.id].name = course.data().name;
                             this.user.courses[course.id].description = course.data().description;
@@ -136,6 +140,7 @@ export const useFirebaseStore = defineStore('firebaseStore', {
 
                 case 'write':
                     if (role == 'admin'){
+                        //se crea un curso nuevo
                         await setDoc(doc(db, "courses",uuidv4()), {name:courseName, description:description , posts:{} },{ merge: true }).catch((err)=>(console.log(err)));
                     }
                     
@@ -143,12 +148,14 @@ export const useFirebaseStore = defineStore('firebaseStore', {
 
                 case 'update':
                     if (role == 'admin'){
+                        //se actualiza un curso existente
                         await updateDoc(doc(db, "courses",documentId), {name:courseName, description:description , posts:posts},{ merge: true }).catch((err)=>(console.log(err)));
                     }
                 break;
 
                 case 'delete':
                     if (role == 'admin'){
+                        //se borra un curso
                         await deleteDoc(doc(db, "courses",documentId)).catch((err)=>(console.log(err)))
                     }    
                 break;
@@ -156,24 +163,23 @@ export const useFirebaseStore = defineStore('firebaseStore', {
 
         },
 
-        async handleUser(){
+        async handleUser(){ //función para manejo del usuario
             const auth = getAuth();
             const db = firestore;
-            const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid)).catch((err)=>(console.log(err)));
-            this.user.documents= userDoc.data().documents;
+            const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid)).catch((err)=>(console.log(err))); //se trae el documento del usuario
+            this.user.documents= userDoc.data().documents;//se rellena el usuario
             this.user.coursesId= userDoc.data().coursesId;
-            console.log(this.user.documents);
         },
 
-        async handleUserList(operation, name, email, role , documents, coursesId, userId,creationDate){
+        async handleUserList(operation, name, email, role , documents, coursesId, userId,creationDate){ //función para manejar la lista de usuarios
             const db = firestore;
             switch (operation){
                 case 'read':
                     
-                    const userList = await getDocs(collection(db, "users")).catch((err)=>(console.log(err)));
+                    const userList = await getDocs(collection(db, "users")).catch((err)=>(console.log(err))); //se trae toda la lista de usuarios
 
-                    userList.forEach((doc)=>{
-                        let user = {
+                    userList.forEach((doc)=>{ //se recorre la lista
+                        let user = { //declaración de objeto vacío
                             name:'', 
                             email:'', 
                             role:'', 
@@ -182,8 +188,8 @@ export const useFirebaseStore = defineStore('firebaseStore', {
                             creationDate:'',
                             userId:''
                         };
-                        this.userList[doc.id]=user;
-                        this.userList[doc.id].name = doc.data().name;
+                        this.userList[doc.id]=user;//se mete el objeto en la lista
+                        this.userList[doc.id].name = doc.data().name; //se rellena el objeto
                         this.userList[doc.id].email = doc.data().email;
                         this.userList[doc.id].role = doc.data().role;
                         this.userList[doc.id].documents = doc.data().documents;
@@ -192,25 +198,25 @@ export const useFirebaseStore = defineStore('firebaseStore', {
                     });
                 break;   
 
-                case 'update':
+                case 'update': //se actualiza un usuario
                     await updateDoc(doc(db, "users", userId), {name:name, email:email , role:role, documents:documents, coursesId:coursesId, creationDate:creationDate,userId:userId},{ merge: true }).catch((err)=>(console.log(err)));
                 break;
             }
         },
 
-        async checkStatus(reload){
+        async checkStatus(reload){ // función para comprobar el estado de login del usuario
             const auth = getAuth(); 
             const db = firestore;
             
-            if (auth.currentUser){
+            if (auth.currentUser){ //si hay currentUser está logged
                 this.user.isLogged = true
 
-                const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
-                if (reload) await auth.currentUser.reload();
+                const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid)); //se trae el documento del usuario
+                if (reload) await auth.currentUser.reload(); //se recarga el auth si se solicita
 
                 
-                auth.currentUser.emailVerified ? this.user.isVerified=true : this.user.isVerified=false;
-                this.user.role=userDoc.data().role;
+                auth.currentUser.emailVerified ? this.user.isVerified=true : this.user.isVerified=false; //se comprueba si se ha verificado por mail
+                this.user.role=userDoc.data().role; //se rellena el user
                 this.user.name = auth.currentUser.displayName;
                 this.user.email = auth.currentUser.email;
             }
@@ -220,7 +226,7 @@ export const useFirebaseStore = defineStore('firebaseStore', {
 
         },
 
-        async handleNavigationAccess(){
+        async handleNavigationAccess(){ //función para evitar que el usuario vaya a /login si está logged o que vaya a /personal si no lo está
             const route = router.currentRoute._rawValue.path;
             switch(route){
                 case '/login': if(this.user.isLogged) router.push({ path: '/personal' });
@@ -232,7 +238,7 @@ export const useFirebaseStore = defineStore('firebaseStore', {
             
         },
 
-        modifyState(key,value){
+        modifyState(key,value){ //función para modificar distintas propiedades del estado desde fuera del mismo cuando es necesario
             switch (key){
                 case 'user.error':
                     this.user.error = value;
@@ -246,14 +252,14 @@ export const useFirebaseStore = defineStore('firebaseStore', {
             }
         },
 
-        async signOut(){
+        async signOut(){ //logout
             const auth = getAuth();
-            try{ await signOut(auth) }
+            try{ await signOut(auth) } //se cierra sesión
             catch(err){
                 console.log(err);
             }
             if(!auth.currentUser){
-                this.$reset();
+                this.$reset(); //se resetea la store
                 this.handleNavigationAccess();
             }
         }
@@ -261,7 +267,7 @@ export const useFirebaseStore = defineStore('firebaseStore', {
 
     },
 
-    getters:{
+    getters:{ //los getters devuelven valores del estado
         getName: (state) => state.user.name,
         getEmail: (state) => state.user.email,
         getLogged: (state) => state.user.isLogged,

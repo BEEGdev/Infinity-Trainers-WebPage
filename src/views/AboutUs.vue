@@ -5,6 +5,7 @@ import webTexts from '../webTexts.json'
 </script>
 
 <template>
+    <!-- Componente about -->
 <div>
 <div class="w-full h-64 bg-cover bg-bottom bg-[url('https://d2hbcuqreawz28.cloudfront.net/FAQ-header.webp')]"> </div>
     <div class="bg-[#016646] text-white p-8 text-center">
@@ -15,7 +16,7 @@ import webTexts from '../webTexts.json'
     </div>
     <div class="my-40">
         <div class="grid grid-cols place-items-center my-14 gap-12">
-            <InfoDropdown v-for="aboutUs in webTexts.aboutUs"
+            <InfoDropdown v-for="aboutUs in webTexts.aboutUs" 
             :title="aboutUs.title"
             :text="aboutUs.text"
             :list="aboutUs.list"

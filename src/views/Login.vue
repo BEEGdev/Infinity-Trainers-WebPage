@@ -4,33 +4,33 @@ import { useFirebaseStore } from '../stores/firebaseStore';
 import { ref ,watch, onBeforeMount} from 'vue';
 const firebaseStore = useFirebaseStore()
 
-const isRegister = ref(false)
-const email= ref('');
+const isRegister = ref(false) //bool para controlar la visibilidad login/registro
+const email= ref(''); //referencias reactivas para los formularios
 const name= ref('');
 const password= ref('');
 const password2= ref('');
 const passwordStyle = ref('p-2 rounded-lg outline-none text-xl');
 const passwordStyle2 = ref('p-2 rounded-lg outline-none text-xl');
-const error = storeToRefs(firebaseStore).getError;
-const errorMessage = storeToRefs(firebaseStore).getErrorMessage;
+const error = storeToRefs(firebaseStore).getError; //traigo el error de la store
+const errorMessage = storeToRefs(firebaseStore).getErrorMessage; //traigo el mensaje de error de la store
 const loginEmail= ref('');
 const loginPassword= ref('');
     
-watch(password,() => {
+watch(password,() => { //watcher para el color de la contraseña
     password.value.length < 6 ? passwordStyle.value="p-2 rounded-lg text-red-600 outline-none text-xl" : passwordStyle.value="p-2 rounded-lg text-green-600 outline-none text-xl";
 })
 
-watch(password2,() => {
+watch(password2,() => {//watcher para el color de la contraseña
     password2.value.length < 6 ? passwordStyle2.value="p-2 rounded-lg text-red-600 outline-none text-xl" : passwordStyle2.value="p-2 rounded-lg text-green-600 outline-none text-xl";
 })
 
-function handleToggle(){
+function handleToggle(){ //manejo de la visibilidad de los formularios
     firebaseStore.modifyState('user.error',false);
     firebaseStore.modifyState('user.errorMessage','');
     isRegister.value = !isRegister.value;
 }
 
-function checkRegisterInput(){
+function checkRegisterInput(){ //verificiación del formulario de registro
     if(
         (name.value != '' && name.value != null) &&
         (password.value != '' && password.value != null) &&
@@ -51,22 +51,24 @@ function checkRegisterInput(){
     }
 }
 
-function registerUser(email,password,name){
+function registerUser(email,password,name){ 
+    //si el check es exitoso se hace el registro, si no se lanza error
     checkRegisterInput() ? firebaseStore.registerUser(email,password,name) : firebaseStore.modifyState('user.error',true);
 }; 
 
 function loginUser(email,password){
+    //se hace el login
     firebaseStore.doLogin(email,password);
 
 }; 
 
-onBeforeMount(() => {
-    firebaseStore.checkStatus();   
-    firebaseStore.handleNavigationAccess();
+onBeforeMount(() => { //antes de que la pagina cargue
+    firebaseStore.checkStatus();   //comprobación de estado de login
+    firebaseStore.handleNavigationAccess(); //navigation access para actuar en consecuencia, si está logged va a /personal
 });
 
 </script>
-
+<!-- Componente de formularios de login/registro -->
 <template>
     <div class="h-screen flex items-center justify-center flex-col gap-5">
         

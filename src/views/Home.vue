@@ -4,6 +4,9 @@ import webTexts from '../webTexts.json'
 </script>
 
 <template>
+
+    <!-- Componente Home -->
+
     <div>
     <div class="h-[calc(100vh-80px)]">
         <div class="grid grid-cols-1 bg-[url('https://d2hbcuqreawz28.cloudfront.net/hero2.webp')] w-full h-full bg-no-repeat bg-cover bg-left sm:bg-[url('https://d2hbcuqreawz28.cloudfront.net/hero.webp')] sm:bg-center pb-20">
@@ -46,7 +49,7 @@ import webTexts from '../webTexts.json'
                 <p class="text-[#016646] text-xl">Entra en tu área personal</p>
             </div>
             <div class="w-full flex flex-col items-end">
-                <span class="w-8/12 md:w-4/12 lg:w-6/12 text-center font-bold text-lg text-white bg-[#016646] rounded-lg p-2 hover:bg-white hover:text-[#016646] cursor-pointer"> Iniciar sesión </span>
+                <router-link to="/login" class="w-8/12 md:w-4/12 lg:w-6/12 text-center font-bold text-lg text-white bg-[#016646] rounded-lg p-2 hover:bg-white hover:text-[#016646] cursor-pointer"> Iniciar sesión </router-link>
             </div>       
         </div>
         <div class="p-12 rounded-xl shadow-md shadow-gray-300 flex flex-row justify-between">

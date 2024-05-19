@@ -3,22 +3,23 @@
 import { useFirebaseStore } from '../stores/firebaseStore';
 import { storeToRefs } from 'pinia';
 
-const firebaseStore = useFirebaseStore();
+const firebaseStore = useFirebaseStore(); //llamada a la store
 
-const userList = storeToRefs(firebaseStore).getUserList;
-const emit = defineEmits(['editUser','viewUser'])
+const userList = storeToRefs(firebaseStore).getUserList; //lista de usuarios de la store
+const emit = defineEmits(['editUser','viewUser']) //emits
 
 
-function editUser(key){
+function editUser(key){ //Emit para abrir edición de usuario (click en editar)
     emit('editUser',key);
 }
 
-function viewUser(key){
+function viewUser(key){//Emit para ver usuario (click)
     emit('viewUser',key);
 }
 </script>
 
 <template>
+    <!-- componente lista de usuarios -->
 <div class="grid grid-cols-1 gap-5">
 
     <div v-for="(user,key) in userList" :key="key">

@@ -1,32 +1,19 @@
 <script setup>
 import HeaderComponent from './components/HeaderComponent.vue';
 import FooterComponent from './components/FooterComponent.vue';
-import { ref } from 'vue';
-import { useFirebaseStore } from './stores/firebaseStore';
+import { watch } from 'vue';
+import router from './router/router';
 
-const firebaseStore = useFirebaseStore();
+watch(router.currentRoute,() => { //watcher para mover el scroll al principio de la página cuando cambia la ruta
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+})
 
 </script>
 
 <template>
 <div class="bg-white font-serif">
 <HeaderComponent/>
-<router-view v-slot="{ Component }" @notifyHeader="getLogged()">  
-  <transition name="fade" mode="out-in">
-        <component :is="Component"/>
-  </transition>
-</router-view>
+<router-view></router-view>
 <FooterComponent class=""/>
 </div>
 </template>
-
-<style>
-.fade-enter-active,
-.fade-leave-active {
-    transition: 400ms ease all;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
-}</style>

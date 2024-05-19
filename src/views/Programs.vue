@@ -3,8 +3,9 @@ import Card from '../components/Card.vue';
 import webTexts from '../webTexts.json';
 import ContactInfo from '../components/ContactInfo.vue';
 </script>
-
-<template class=""><div>
+<!-- Página de información de bonos -->
+<template class="">
+<div>
     <div class="w-full h-64 bg-cover bg-center bg-[url('https://d2hbcuqreawz28.cloudfront.net/programs-header.webp')]"> </div>
     <div class="bg-[#016646] text-white p-8 text-center">
         <p class="p-1 font-extrabold text-2xl text-center">¿Estás dispuesto a apostar por ti?</p>
