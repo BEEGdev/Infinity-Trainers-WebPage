@@ -536,7 +536,7 @@ function viewDoc(key){ //función para ver el doc (emit)
 </script>
 
 <template>
-    <div>
+    <div class="pb-60">
     <!-- Si el user no esta verificado ve esta pantalla -->
     <div v-show="!isVerified" class="h-screen flex items-center justify-center flex-col gap-5 w-9/12 m-auto">
         <button @click="signOut()" class="bg-[#016646] hover:bg-white hover:text-[#016646] text-white px-2 rounded-lg font-bold">Cerrar sesión</button>

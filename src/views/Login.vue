@@ -70,7 +70,7 @@ onBeforeMount(() => { //antes de que la pagina cargue
 </script>
 <!-- Componente de formularios de login/registro -->
 <template>
-    <div class="h-screen flex items-center justify-center flex-col gap-5">
+    <div class="h-screen flex items-center justify-center flex-col gap-5 py-60">
         
             <div v-show="!isRegister" class="grid grid-cols-1 bg-[#016646] p-12 rounded-lg sm:w-9/12 lg:w-6/12 xl:w-4/12 2xl:w-3/12 gap-8">
                 <form @submit.prevent="onSubmit" class="grid grid-cols-1 gap-10">

@@ -9,13 +9,14 @@ import webTexts from '../webTexts.json'
 
     <div>
     <div class="h-[calc(100vh-80px)]">
-        <div class="grid grid-cols-1 bg-[url('https://d2hbcuqreawz28.cloudfront.net/hero2.webp')] w-full h-full bg-no-repeat bg-cover bg-left sm:bg-[url('https://d2hbcuqreawz28.cloudfront.net/hero.webp')] sm:bg-center pb-20">
-            <div class="p-0 text-right grid grid-cols-1 place-items-end pt-20 w-full gap-40">
-                <div class="grid grid-cols-1 place-items-center m-0 p-0 gap-4 w-7/12 sm:gap-8 sm:w-8/12">
-                    <img class="w-6/12 sm:w-5/12 md:w-4/12" src="https://d2hbcuqreawz28.cloudfront.net/logo.png" alt="Infinity Trainers logo">
-                    <span class="text-[#016646] font-bold text-2xl sm:text-4xl md:text-5xl xl:text-6xl">Infinity Trainers</span>
+        <div class="grid grid-cols-1 bg-[url('https://d2hbcuqreawz28.cloudfront.net/hero2.webp')] w-full h-full bg-no-repeat bg-cover bg-left sm:bg-[url('https://d2hbcuqreawz28.cloudfront.net/hero.webp')] sm:bg-center pb-20 relative">
+            <div class="p-0 text-right grid grid-cols-1 place-items-center w-full gap-40">
+                <div class="grid grid-cols-1 place-items-center mx-auto p-0 gap-4 w-fuññ sm:gap-8 sm:w-8/12">
+                    <img class="w-5/12 sm:w-3/12 md:w-3/12" src="https://d2hbcuqreawz28.cloudfront.net/logo.png" alt="Infinity Trainers logo">
+                    <span class="text-[#016646] font-bold text-3xl sm:text-2xl md:text-3xl xl:text-6xl">Infinity Trainers</span>
                 </div>
-                <router-link to="/programs" class="text-white flex gap-16 font-bold bg-[#016646] p-4 rounded-md m-auto sm:gap-44 hover:bg-white hover:text-[#016646] cursor-pointer">
+            </div>
+            <router-link to="/programs" class="text-white flex justify-between w-10/12 sm:w-5/12 lg:w-4/12 xl:w-3/12 font-bold bg-[#016646] p-3 rounded-md m-auto  hover:bg-white hover:text-[#016646] cursor-pointer absolute text-sm mx-auto self-end justify-self-center mb-10">
                     <span class="">Consultar programas</span>
                     <span class="items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="m-0 p-0 h-full" width="20" height="20" viewBox="0 0 24 24" stroke-width="0.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -24,7 +25,6 @@ import webTexts from '../webTexts.json'
                         </svg>
                     </span>
                 </router-link>    
-            </div>
         </div>
     </div>
 <div class="p-10 bg-[#016646] grid grid-cols-1 text-white text-center gap-8 font-bold place-items-center lg:grid-cols-2 ">
