@@ -53,11 +53,11 @@ import webTexts from '../webTexts.json'
             </div>       
         </div>
         <div class="p-12 rounded-xl shadow-md shadow-gray-300 flex flex-row justify-between">
-            <div class="flex flex-col gap-4">
-                <p class="text-2xl font-bold text-[#016646]">Nuestras redes</p>
+            <div class="flex flex-col gap-4 justify-between sm:justify-normal">
+                <p class="text-2xl font-bold text-[#016646] w-10/12 sm:w-full">Nuestras redes</p>
                 <p class="text-[#016646] w-8/12 sm:w-full">Para que no te pierdas nada</p>
             </div>
-            <div class="flex flex-col sm:flex-row gap-10 items-center justify-center align-middle">
+            <div class="flex flex-col sm:flex-row gap-10 items-center justify-between sm:justify-center align-middle">
 					<a href="https://www.instagram.com/infinity_trainers_/">
 						<svg xmlns="http://www.w3.org/2000/svg" class="transition duration-300 border-b-4 border-transparent hover:border-white rounded-b" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#016646" fill="none" stroke-linecap="round" stroke-linejoin="round">
 							<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
