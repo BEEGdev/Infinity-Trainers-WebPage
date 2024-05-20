@@ -51,7 +51,7 @@ window.addEventListener('scroll', handleScroll); //eventListener para el scroll
             </button>
         </div>
     </header>
-    <div class="w-screen absolute">  <!-- Menú desplegable en versión móvil -->
+    <div class="w-screen">  <!-- Menú desplegable en versión móvil -->
         <nav class="sm:hidden justify-end w-full" v-if="isMenuVisible">
             <ul class="text-right text-white text-2xl">
                 <li class="p-6 sm:px-2 bg-[#016646]" @click="showMobileMenu"><LoginWidget/></li>
